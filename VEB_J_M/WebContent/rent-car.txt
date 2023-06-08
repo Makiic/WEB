@@ -1,0 +1,4 @@
+1;naziv1;Novi Sad;5.55
+2;naziv2;Beograd;10.0
+3;naziv3;Nis;7.8
+4;naziv3;Nis;7.8
