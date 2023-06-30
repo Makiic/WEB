@@ -1,3 +1,3 @@
-mara;123;MArija;Ilic;Zenski;27.11.2001;uloga
-marta;123;MArtija;Iltic;Zenski;27.11.2001;uloga
-mareeta;123;MArtija;Iltdddic;Zenski;27.11.2001;uloga
+mara;123;MArija;Ilic;Zenski;27-Nov-2001;uloga
+marta;123;MArtija;Iltic;Zenski;27-Nov-2001;uloga
+mareeta;123;MArtija;Iltdddic;Zenski;27-Nov-2001;uloga

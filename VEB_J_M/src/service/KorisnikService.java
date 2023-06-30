@@ -39,11 +39,10 @@ public class KorisnikService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik register(Korisnik korisnik){
-		
+		init();
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 		return korisnikDAO.sacuvaj(korisnik);
 	}
-	@PUT
 	@GET
 	@Path("/getRegistered")
 	@Produces(MediaType.APPLICATION_JSON)

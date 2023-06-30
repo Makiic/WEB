@@ -26,11 +26,9 @@ public class KorisnikDAO {
 	
 	//@param
 	public KorisnikDAO(String contextPath) {
-		realPath = contextPath + "korisnici.txt";
-		System.out.println(realPath);
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/korisnici.txt");
+			File file = new File(contextPath + "/korisnik.txt");
 			in = new BufferedReader(new FileReader(file));
 			readUsers(in);
 		} catch (Exception e) {
@@ -61,14 +59,13 @@ public class KorisnikDAO {
 	 * @param korisnik
 	 */
 	public Korisnik sacuvaj(Korisnik korisnik) {
-		if(!korisnici.containsKey(korisnik.getId())) {
-			System.out.println("\n\n\t DODAJEM KORISNIKA\n\n");
-			korisnici.put(String.valueOf(korisnik.getId()), korisnik);
-			listaKorisnika.add(korisnik);
-			writeUser(korisnik);
-		}
-		return korisnik;
-		
+	    if (!korisnici.containsKey(korisnik.getKorisnickoIme())) {
+	        System.out.println("\n\n\t DODAJEM KORISNIKA\n\n");
+	        korisnici.put(korisnik.getKorisnickoIme(), korisnik);
+	        listaKorisnika.add(korisnik);
+	        writeUser(korisnik);
+	    }
+	    return korisnik;
 	}
 	//@param
 	private void readUsers(BufferedReader in) {
@@ -91,13 +88,12 @@ public class KorisnikDAO {
 	                String datumRodjenja = st.nextToken().trim();
 	                String uloga = st.nextToken().trim();
 
-	                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	                LocalDate date = LocalDate.parse(datumRodjenja, formatter);
 
 	                Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga);
 	                korisnici.put(korisnickoIme, korisnik);
 	                listaKorisnika.add(korisnik);
-	                System.out.println(korisnik);
 	            }
 	        }
 	    } catch (Exception ex) {
@@ -113,13 +109,12 @@ public class KorisnikDAO {
 	        String id = UUID.randomUUID().toString();
 
 	        // Append user data to the line
-	        line.append(id).append(";")
-	            .append(korisnik.getKorisnickoIme()).append(";")
+	        line.append(korisnik.getKorisnickoIme()).append(";")
 	            .append(korisnik.getLozinka()).append(";")
 	            .append(korisnik.getIme()).append(";")
 	            .append(korisnik.getPrezime()).append(";")
 	            .append(korisnik.getPol()).append(";")
-	            .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MM-yyyy"))).append(";")
+	            .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
 	            .append(korisnik.getUloga()).append(";");
 	        
 	        // Write the line to the file
@@ -173,17 +168,16 @@ public class KorisnikDAO {
 		        for (Korisnik korisnik : korisnici.values()) {
 		            StringBuilder line = new StringBuilder();
 
-		            line.append(korisnik.getId()).append(";")
-		                .append(korisnik.getKorisnickoIme()).append(";")
-		                .append(korisnik.getLozinka()).append(";")
-		                .append(korisnik.getIme()).append(";")
-		                .append(korisnik.getPrezime()).append(";")
-		                .append(korisnik.getPol()).append(";")
-		                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MM-yyyy"))).append(";")
-		                .append(korisnik.getUloga()).append(";");
+		            line.append(korisnik.getKorisnickoIme()).append(";")
+		            .append(korisnik.getLozinka()).append(";")
+		            .append(korisnik.getIme()).append(";")
+		            .append(korisnik.getPrezime()).append(";")
+		            .append(korisnik.getPol()).append(";")
+	                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
+		            .append(korisnik.getUloga()).append(";");
 
-		            writer.write(line.toString());
-		            writer.newLine();
+		        writer.write(line.toString());
+		        writer.newLine();
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
