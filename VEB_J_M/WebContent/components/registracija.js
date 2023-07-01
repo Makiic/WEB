@@ -2,25 +2,25 @@ Vue.component("registracija", {
   data: function () {
     return {
       korisnik: {
-        id: null,
         korisnickoIme: null,
         lozinka: null,
         ime: null,
         prezime: null,
         pol: null,
         datumRodjenja: null,
+        uloga: null,
       },
 
       confirmationPassword: null,
 
       errorMessages: {
-        id: " ",
         korisnickoIme: " ",
         lozinka: " ",
         ime: " ",
         prezime: " ",
         pol: " ",
         datumRodjenja: " ",
+        uloga: " ",
       },
     };
   },
@@ -87,19 +87,14 @@ Vue.component("registracija", {
       let valid = true;
       this.errorMessages = {};
 
-      
-        axios
-          .post('rest/korisnici/registracija', {
-            "korisnickoIme": this.korisnik.korisnickoIme,
-            "lozinka": this.korisnik.lozinka,
-            "ime": this.korisnik.ime,
-            "prezime": this.korisnik.prezime,
-            "pol" : this.korisnik.pol,
-			"datumRodjenja" : this.korisnik.datumRodjenja,
-			"uloga" : 'Kupac'
-		})
-		.catch(error => 
-		    			console.error(error));
+        axios.post('rest/korisnici/registracija', this.korisnik)
+		  .then(response => {
+		    // Handle the response from the server
+		  })
+		  .catch(error => {
+		    console.error(error);
+		    // Handle any errors that occur during the request
+		  });
     			
 	}
 }

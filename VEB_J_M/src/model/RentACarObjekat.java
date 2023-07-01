@@ -12,7 +12,7 @@ public class RentACarObjekat {
 	private LocalTime endVreme;
 	private boolean status;
 	private Lokacija lokacija;
-	private String slika;
+	private String logo;
 	private int ocena;
 	public int getId() {
 		return id;
@@ -52,10 +52,10 @@ public class RentACarObjekat {
 		this.lokacija = lokacija;
 	}
 	public String getSlika() {
-		return slika;
+		return logo;
 	}
 	public void setSlika(String slika) {
-		this.slika = slika;
+		this.logo = slika;
 	}
 	public int getOcena() {
 		return ocena;
@@ -72,7 +72,7 @@ public class RentACarObjekat {
 		this.endVreme=endVreme;
 		this.status = status;
 		this.lokacija = lokacija;
-		this.slika = slika;
+		this.logo = slika;
 		this.ocena = ocena;
 	}
 	public RentACarObjekat() {

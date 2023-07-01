@@ -104,18 +104,15 @@ public class KorisnikDAO {
 	public void writeUser(Korisnik korisnik) {
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath, true))) {
 	        StringBuilder line = new StringBuilder();
-
-	        // Generate a unique id
-	        String id = UUID.randomUUID().toString();
-
+	        
 	        // Append user data to the line
 	        line.append(korisnik.getKorisnickoIme()).append(";")
 	            .append(korisnik.getLozinka()).append(";")
 	            .append(korisnik.getIme()).append(";")
-	            .append(korisnik.getPrezime()).append(";")
-	            .append(korisnik.getPol()).append(";")
+	            .append(korisnik.getPrezime()).append(";");
+	            /*.append(korisnik.getPol()).append(";")
 	            .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
-	            .append(korisnik.getUloga()).append(";");
+	            .append(korisnik.getUloga()).append(";");*/
 	        
 	        // Write the line to the file
 	        writer.write(line.toString());
