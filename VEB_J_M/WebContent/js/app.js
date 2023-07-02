@@ -3,6 +3,7 @@ const HomePage = {template: "<homepage></homepage>"}
 const Registracija = {template: "<registracija></registracija>"}
 const Edit = {template: "<edit></edit>"}
 const RentACar = {template: "<rent-a-car></rent-a-car>"}
+const Administrator = {template: "<administrator></administrator>"}
 const router = new VueRouter({
 	mode: 'hash',  
 	routes: [
@@ -10,7 +11,8 @@ const router = new VueRouter({
 		{path : "/homepage/:korisnickoIme", component: HomePage},
 		{path : "/registracija", component: Registracija},
 		{path : "/edit/:korisnickoIme", component: Edit},
-		{path : "/rentACar", component: RentACar}]
+		{path : "/rentACar", component: RentACar},
+		{path : "/Administrator", component: Administrator}]
 	
 });
 

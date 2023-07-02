@@ -102,7 +102,8 @@ public class KorisnikDAO {
 	}
 	
 	public void writeUser(Korisnik korisnik) {
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath, true))) {
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.realPath, true));
+) {
 	        StringBuilder line = new StringBuilder();
 	        
 	        // Append user data to the line
@@ -129,55 +130,50 @@ public class KorisnikDAO {
 		}
 		
 		public Korisnik update(Korisnik updatedKorisnik) {
-			Korisnik korisnikUpdate = this.pronadji(updatedKorisnik.getKorisnickoIme());
+		    String korisnickoIme = updatedKorisnik.getKorisnickoIme();
 
-		    if (korisnikUpdate != null) {
-		        korisnici.remove(updatedKorisnik.getKorisnickoIme()); // Delete the line containing the found user
+		    if (korisnici.containsKey(korisnickoIme)) {
+		        // Update the user in the map
+		        korisnici.put(korisnickoIme, updatedKorisnik);
 
-		        // Create a new User object with updated data
-		        Korisnik noviKorisnik = new Korisnik(
-		        		updatedKorisnik.getKorisnickoIme(),
-		        		updatedKorisnik.getLozinka(),
-		        		updatedKorisnik.getIme(),
-		        		updatedKorisnik.getPrezime(),
-		        		updatedKorisnik.getPol(),
-		        		updatedKorisnik.getDatumRodjenja(),
-		        		updatedKorisnik.getUloga()
-		        );
-
-		        korisnici.put(updatedKorisnik.getKorisnickoIme(), noviKorisnik); // Insert the updated user
-		        
-		        for(Korisnik korisnik: korisnici.values()) {
-		        	System.out.println(korisnik);
+		        // Update the user in the list
+		        for (int i = 0; i < listaKorisnika.size(); i++) {
+		            if (listaKorisnika.get(i).getKorisnickoIme().equals(korisnickoIme)) {
+		                listaKorisnika.set(i, updatedKorisnik);
+		                break;
+		            }
 		        }
 
 		        // Rewrite the entire file with updated user data
 		        rewriteUsersFile();
 
-		        return noviKorisnik;
+		        return updatedKorisnik;
 		    }
 
 		    return null; // User not found
 		}
-		
+
 		private void rewriteUsersFile() {
 		    try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath))) {
 		        for (Korisnik korisnik : korisnici.values()) {
 		            StringBuilder line = new StringBuilder();
 
 		            line.append(korisnik.getKorisnickoIme()).append(";")
-		            .append(korisnik.getLozinka()).append(";")
-		            .append(korisnik.getIme()).append(";")
-		            .append(korisnik.getPrezime()).append(";")
-		            .append(korisnik.getPol()).append(";")
-	                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
-		            .append(korisnik.getUloga()).append(";");
+		                .append(korisnik.getLozinka()).append(";")
+		                .append(korisnik.getIme()).append(";")
+		                .append(korisnik.getPrezime()).append(";")
+		                .append(korisnik.getPol()).append(";")
+		                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
+		                .append(korisnik.getUloga()).append(";");
 
-		        writer.write(line.toString());
-		        writer.newLine();
+		            writer.write(line.toString());
+		            writer.newLine();
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
 		}
+
+
+
 }

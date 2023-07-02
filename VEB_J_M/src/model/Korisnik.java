@@ -16,14 +16,25 @@ public class Korisnik
     private String pol;
     private String datumRodjenja;
     private String uloga;
+    private int brojBodova;
 
 	
 
   
+	public int getBrojBodova() {
+		return brojBodova;
+	}
+
+
+	public void setBrojBodova(int brojBodova) {
+		this.brojBodova = brojBodova;
+	}
+
+
 	public Korisnik( String korisnickoIme, String lozinka, String ime, String prezime, String pol,
-			String datumRodjenja, String uloga) {
+			String datumRodjenja, String uloga,int brojBodova) {
 		super();
-	
+	    
 		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
 		this.ime = ime;
@@ -31,6 +42,7 @@ public class Korisnik
 		this.pol = pol;
 		this.datumRodjenja = datumRodjenja;
 		this.uloga = uloga;
+		this.brojBodova=brojBodova;
 	}
 
 

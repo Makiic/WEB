@@ -61,12 +61,11 @@ public class KorisnikService {
 	    KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 	    return korisnikDAO.pronadji(korisnickoIme);
 	}
-	@GET
-	@POST
+	@PUT
 	@Path("/edit/{korisnickoIme}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Korisnik updateUser(@PathParam ("korisickoIme") String korisnickoIme, Korisnik updatedKorisnik) {
+	public Korisnik updateUser(@PathParam ("korisnickoIme") String korisnickoIme, Korisnik updatedKorisnik) {
 		KorisnikDAO korisnikDAO  = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 		Korisnik korisnik = korisnikDAO.update(updatedKorisnik);
 		return korisnik;
