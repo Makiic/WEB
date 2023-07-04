@@ -1,5 +1,5 @@
-1;naziv1;Novi Sad;5.55;true;images/logo1.jpg
-2;naziv2;Beograd;10.0;false;images/logo2.png
-3;naziv3;Nis;7.8;true;images/logo1.jpg
-4;na;Nis;7.8;false;images/logo2.png
-4;naziv3;Jovana;7.8;true;images/logo1.jpg
+1;naziv1;1,2,3;1;5.55;true;images/logo1.jpg
+2;naziv2;3,2,6;2;10.0;false;images/logo2.png
+3;naziv3;5,6;3;7.8;true;images/logo1.jpg
+4;na;1,5;4;7.8;false;images/logo2.png
+5;naziv3;2;5;7.8;true;images/logo1.jpg

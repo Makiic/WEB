@@ -1,0 +1,6 @@
+1;New York;United States
+2;London;United Kingdom
+3;Paris;France
+4;Berlin;Germany
+5;Tokyo;Japan
+6;Sydney;Australia

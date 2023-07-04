@@ -7,7 +7,7 @@ public class RentACarObjekat {
 	
 	private int id;
 	private String naziv;
-	//private List<Vozilo> vozilaUPonudi;
+	private List<Vozilo> vozilaUPonudi;
 	private LocalTime startVreme;
 	private LocalTime endVreme;
 	private boolean status;
@@ -63,20 +63,26 @@ public class RentACarObjekat {
 	public void setOcena(int ocena) {
 		this.ocena = ocena;
 	}
-	public RentACarObjekat(int id, String naziv,  LocalTime startVreme,LocalTime endVreme, boolean status,
-			Lokacija lokacija, String slika, int ocena) {
-		super();
+	public RentACarObjekat(int id, String naziv, List<Vozilo> vozilaUPonudi, LocalTime startVreme, LocalTime endVreme, boolean status,
+            Lokacija lokacija, String logo, int ocena) {
 		this.id = id;
 		this.naziv = naziv;
 		this.startVreme = startVreme;
-		this.endVreme=endVreme;
+		this.endVreme = endVreme;
 		this.status = status;
 		this.lokacija = lokacija;
-		this.logo = slika;
+		this.logo = logo;
 		this.ocena = ocena;
-	}
+		this.vozilaUPonudi = vozilaUPonudi;
+		}
 	public RentACarObjekat() {
 		super();
+	}
+	public List<Vozilo> getVozilaUPonudi() {
+		return vozilaUPonudi;
+	}
+	public void setVozilaUPonudi(List<Vozilo> vozilaUPonudi) {
+		this.vozilaUPonudi = vozilaUPonudi;
 	}
 
 }
