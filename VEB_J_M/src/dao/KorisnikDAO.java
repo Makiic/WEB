@@ -15,6 +15,8 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import model.Korisnik;
+import model.Korisnik.TipKupca;
+import model.Korisnik.Uloga;
 import model.RentACarObjekat;
 
 public class KorisnikDAO {
@@ -87,11 +89,18 @@ public class KorisnikDAO {
 	                String pol = st.nextToken().trim();
 	                String datumRodjenja = st.nextToken().trim();
 	                String uloga = st.nextToken().trim();
+	                Uloga ulogaEnum = Uloga.valueOf(uloga);
+	                String tip = st.nextToken().trim();
+	                TipKupca tipEnum = TipKupca.valueOf(tip);
+	                
+
+	                int brBodova = 0 ;
 
 	                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	                LocalDate date = LocalDate.parse(datumRodjenja, formatter);
 
-	                Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga);
+	                Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, ulogaEnum, brBodova,tipEnum);
+
 	                korisnici.put(korisnickoIme, korisnik);
 	                listaKorisnika.add(korisnik);
 	            }
@@ -110,10 +119,12 @@ public class KorisnikDAO {
 	        line.append(korisnik.getKorisnickoIme()).append(";")
 	            .append(korisnik.getLozinka()).append(";")
 	            .append(korisnik.getIme()).append(";")
-	            .append(korisnik.getPrezime()).append(";");
+	            .append(korisnik.getPrezime()).append(";")
 	            /*.append(korisnik.getPol()).append(";")
 	            .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
 	            .append(korisnik.getUloga()).append(";");*/
+	        .append(korisnik.getUloga()).append(";");
+
 	        
 	        // Write the line to the file
 	        writer.write(line.toString());
@@ -164,7 +175,9 @@ public class KorisnikDAO {
 		                .append(korisnik.getPrezime()).append(";")
 		                .append(korisnik.getPol()).append(";")
 		                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
+		               
 		                .append(korisnik.getUloga()).append(";");
+
 
 		            writer.write(line.toString());
 		            writer.newLine();

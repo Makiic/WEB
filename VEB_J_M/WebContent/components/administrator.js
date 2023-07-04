@@ -55,10 +55,10 @@ Vue.component('Administrator', {
       <label for="sortParam">Sort Parameter:</label>
       <select id="sortParam" v-model="sortParam">
         <option value="">None</option>
-        <option value="ime">Ime</option>
-        <option value="prezime">Prezime</option>
-        <option value="korisnickoIme">Korisničko Ime</option>
-        <option value="brojBodova">Broj Bodova</option>
+        <option value="ime">FirstName</option>
+        <option value="prezime">LastName</option>
+        <option value="korisnickoIme">Username</option>
+        <option value="brojBodova">Points</option>
       </select>
 
       <label for="sortOrder">Sort Order:</label>
@@ -77,11 +77,11 @@ Vue.component('Administrator', {
     <table>
       <thead>
         <tr>
-          <th>Ime</th>
-          <th>Prezime</th>
-          <th>Korisničko Ime</th>
-          <th>Uloga</th>
-          <th>Broj Bodova</th>
+          <th>FirstName</th>
+          <th>LastName</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Points</th>
         </tr>
       </thead>
       <tbody>
@@ -116,51 +116,52 @@ Vue.component('Administrator', {
         (this.selectedUserType === '' || korisnik.tipKorisnika === this.selectedUserType)
       );
     },
-    sortUsers() {
-      // Implement sorting logic based on the sortParam and sortOrder
-      // Example:
-     this.korisnici.sort((a, b) => {
-  if (this.sortParam === 'Id') {
-    return (a.Id - b.Id) * (this.sortOrder === 'asc' ? 1 : -1);
-  } else if (this.sortParam === 'ime') {
-    return a.ime.localeCompare(b.ime) * (this.sortOrder === 'asc' ? 1 : -1);
-  } else if (this.sortParam === 'prezime') {
-    return a.prezime.localeCompare(b.prezime) * (this.sortOrder === 'asc' ? 1 : -1);
-  } else if (this.sortParam === 'korisnickoIme') {
-    return a.korisnickoIme.localeCompare(b.korisnickoIme) * (this.sortOrder === 'asc' ? 1 : -1);
-  } else if (this.sortParam === 'brojBodova') {
-    return (a.brojBodova - b.brojBodova) * (this.sortOrder === 'asc' ? 1 : -1);
-  }
-});
+   sortUsers() {
+  this.korisnici.sort((a, b) => {
+    if (this.sortParam === 'Id') {
+      return (a.Id - b.Id) * (this.sortOrder === 'asc' ? 1 : -1);
+    } else if (this.sortParam === 'ime') {
+      return a.ime.localeCompare(b.ime) * (this.sortOrder === 'asc' ? 1 : -1);
+    } else if (this.sortParam === 'prezime') {
+      return a.prezime.localeCompare(b.prezime) * (this.sortOrder === 'asc' ? 1 : -1);
+    } else if (this.sortParam === 'korisnickoIme') {
+      return a.korisnickoIme.localeCompare(b.korisnickoIme) * (this.sortOrder === 'asc' ? 1 : -1);
+    } else   if (this.sortParam === 'brojBodova') {
+      return (a[this.sortParam] - b[this.sortParam]) * (this.sortOrder === 'asc' ? 1 : -1);
+    }
+    
+  });
+
 
     },
   },
-  mounted() {
-    // Fetch the list of users from the server and store them in the korisnici array
-    // Example:
-    axios
-      .get('korisnik.txt')
-      .then(response => {
-        const data = response.data.split('\n');
-        this.korisnici = data.map(line => {
-          const [Id,korisnickoIme, lozinka, ime, prezime,pol,datumRodjenja,uloga,brojBodova] = line.split(';');
-          return {
-			  Id: Id.trim(),
-            korisnickoIme: korisnickoIme.trim(),
-            lozinka:lozinka.trim(),
-            ime: ime.trim(),
-            prezime: prezime.trim(),
-            pol:pol.trim(),
-            datumRodjenja:datumRodjenja.trim(),
-            uloga: uloga.trim(),
-            brojBodova:parseInt(brojBodova.trim())
-          };
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching users:', error);
+mounted() {
+  // Fetch the list of users from the server and store them in the korisnici array
+  // Example:
+  axios
+    .get('korisnik.txt')
+    .then(response => {
+      const data = response.data.split('\n');
+      this.korisnici = data.map(line => {
+        const [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, brojBodova] = line.split(';');
+        return {
+          Id: parseInt(Id.trim()),
+          korisnickoIme: korisnickoIme.trim(),
+          lozinka: lozinka.trim(),
+          ime: ime.trim(),
+          prezime: prezime.trim(),
+          pol: pol.trim(),
+          datumRodjenja: datumRodjenja.trim(),
+          uloga: uloga.trim(),
+          brojBodova: parseInt(brojBodova.trim())
+        };
       });
-  },
+    })
+    .catch(error => {
+      console.error('Error fetching users:', error);
+    });
+},
+
    computed: {
     filteredUsers() {
       let filtered = this.korisnici;
@@ -188,11 +189,18 @@ Vue.component('Administrator', {
 
       // Apply sorting
       if (this.sortParam) {
-        const sortOrder = this.sortOrder === 'asc' ? 1 : -1;
-        filtered = filtered.sort((a, b) =>
-          a[this.sortParam].localeCompare(b[this.sortParam]) * sortOrder
-        );
-      }
+  const sortOrder = this.sortOrder === 'asc' ? 1 : -1;
+  filtered = filtered.sort((a, b) => {
+    if (typeof a[this.sortParam] === 'string' && typeof b[this.sortParam] === 'string') {
+      return a[this.sortParam].localeCompare(b[this.sortParam]) * sortOrder;
+    } else if (typeof a[this.sortParam] === 'number' && typeof b[this.sortParam] === 'number') {
+      return (a[this.sortParam] - b[this.sortParam]) * sortOrder;
+    } else {
+      return 0;
+    }
+  });
+}
+
 
       return filtered;
     },
