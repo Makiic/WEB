@@ -1,0 +1,49 @@
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 800px;
+}
+
+.column-2 {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.object-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid lightgray; /* Add border */
+  border-radius: 10px; /* Add rounded corners */
+  padding: 10px; /* Add padding */
+  height: 350px;
+}
+
+.logo {
+  width: 330px; /* Set width to 400px */
+  height: 330px; /* Set height to 400px */
+  object-fit: cover;
+}
+
+.naziv-objekta {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.vozila-container {
+  margin-top: 10px;
+  background-color: #2e2e2e;
+  padding: 10px;
+}
+
+.vozilo-container {
+  border: 1px solid lightgray;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: white;
+}

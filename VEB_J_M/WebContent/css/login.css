@@ -247,33 +247,288 @@ form .input-box input{
   margin-left: 700px;
   margin-right: 400px;
 }
-.styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    margin-left: auto;
- 	margin-right: auto;
-}
-.styled-table  th {
-    background-color: #2f323d;
-    color: #ffffff;
-    text-align: center;
-}
 .centered-text {
     text-align: center;
 }
-.searchCar {
-    background-color: #2f323d;
-    margin-left: auto;
- 	margin-right: auto;
- 	width: 500px;
- 	text-align: center;
+.menu-bar-rent-objects {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  margin-left: 30px; /* Add this line to align with the sort container */
 }
-.searchCar::placeholder {
-    font-style: italic;
-	text-align: center;
-	color: gray;
+.menu-bar-rent-objects .searchCar,
+.menu-bar-rent-objects select {
+  border:solid #ccc;
+  border-radius: 5px;
+  background: #ccc;
+}
+
+.menu-bar-rent-objects .searchCar {
+  width: 280px;
+  margin-right: 10px;
+  text-align: center; 
+}
+
+.menu-bar-rent-objects select#searchTip,
+.menu-bar-rent-objects select#searchLokacija {
+  width: 250px; /* Increase the width of the select */
+  font-size: 22px; /* Increase font size */
+}
+.menu-bar-rent-objects button {
+  padding: 5px 5px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff8000;
+  color: #fff;
+  width: 180px;
+  height: 45px;
+  font-size: 22px;
+}
+.menu-bar-rent-objects label {
+  font-size: 22px;
+  color: #ffffff; 
+  margin-right: 1px; 
+  }
+.rentHeader h1 {
+  font-size: 36px; /* Adjust the font size to your preference */
+  font-weight: bold; /* Make the text bold */
+  color: #ff8000;
+}
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: 30px; /* Adjust the margin as needed */
+  margin-left: 80px;
+  margin-right: 20px;
+  width: 90%;
+  height: 20px;
+}
+
+.object {
+  width: 400px; /* Adjust the width of each square */
+  height: 220px; /* Adjust the height of each square */
+  margin-bottom: 20px; /* Add some margin between each row */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-left: 20px; /* Adjust the margin as needed */
+  margin-right: 20px; /* Adjust the margin as needed */
+  transition: all 0.3s; /* Add transition effect */
+}
+
+.object:hover {
+  box-shadow: 0 0 20px #2e2e2e; /* Example: box-shadow becomes darker when hovering */
+}
+
+@media (max-width: 767px) {
+  .object {
+    width: calc(50% - 20px); /* On smaller screens, show 2 objects per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .object {
+    width: 100%; /* On even smaller screens, show 1 object per row */
+  }
+}
+
+.object .name {
+  font-weight: bold;
+  font-size: 20px;
+  color: #ff8000;
+}
+
+.object .location {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.page {
+  display: flex;
+  background: white;
+  flex-direction: row; /* Align the "Sortiraj" and "object" containers horizontally */
+}
+
+.sort-container {
+  /* Style for the sorting section */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2e2e2e;
+  width: 350px;
+  height: 480px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 30px; /* Keep the same margin as the menu */
+  margin-right: 10px; /* Keep the same margin as the menu */
+}
+
+.sort-label {
+  /* Style for the Sortiraj label */
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 30px;
+  color: #ccc;
+}
+
+.sorting-options {
+  /* ... (your existing styles) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.sort-ascending-container {
+  display: flex;
+  align-items: center;
+}
+
+.sort-ascending-container label {
+  margin-right: 10px;
+}
+
+.sorting-options select {
+  /* Align select to the left */
+  align-self: flex-start;
+  border: solid #ccc;
+  border-radius: 5px;
+  background: #ccc;
+  color: black;
+  font-size: 18px;
+  padding: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.sorting-options label {
+  /* Style for the label */
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  color: #ccc;
+  margin: 0 auto;
+}
+
+.sorting-options input[type="checkbox"] {
+  /* Style for the checkbox */
+  align-self: flex-start;
+  margin-right: 5px;
+}
+
+.sorting-options .checkbox-label {
+  /* Style for the checkbox label */
+  font-size: 16px;
+  color: #ccc;
+}
+.filter-container .filter-options .filter-option {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+.filter-option {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.filter-option input[type="radio"] {
+  margin: 0;
+  margin-right: 5px;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.filter-container .filter-options .filter-option input[type="radio"]:checked {
+  border-color: #ff8000; /* Change border color when selected */
+  background-color: #ff8000; /* Change background color when selected */
+}
+
+.filter-container .filter-options .filter-option label {
+  font-size: 18px; /* Increase font size */
+  color: #ccc;
+  cursor: pointer;
+}
+#filterFuelType {
+  /* Apply the same styles as other selects */
+  border: solid #ccc;
+  border-radius: 5px;
+  background: #ccc;
+  color: black;
+  font-size: 18px;
+  padding: 5px;
+  width: 100%;
+  margin-top: 20px; /* Add a suitable top margin */
+}
+
+.filter-radio {
+  margin-right: 8px;
+  vertical-align: middle;
+  appearance: none; /* Hide default appearance */
+  width: 18px; /* Set width and height */
+  height: 18px;
+  border: 2px solid #ccc; /* Add border for the radio button */
+  border-radius: 50%; /* Make it circular */
+  background-color: white; /* Set background color */
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+/* Change radio button border color when selected */
+.filter-radio:checked {
+  border-color: #ff8000;
+  background-color: #ff8000;
+}
+
+/* Style for the label */
+.filter-label {
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 30px;
+  color: #ccc;
+  text-align: center; /* Center the text horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content vertically */
+}
+
+/* Style for the radio button and label together */
+.filter-option {
+  margin-bottom: 10px;
+  margin-top: 20px; /* Add top margin */
+  display: flex;
+  align-items: left;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: left;
+  color: #ccc;
+}
+
+/* Add styles for the search by naziv and prosecna ocena */
+.menu-bar-rent-objects .searchCar {
+  color: #2e2e2e; /* Change foreground color */
+}
+
+.menu-bar-rent-objects label[for="searchTip"], .menu-bar-rent-objects label[for="searchLokacija"] {
+  color: #2e2e2e; /* Change foreground color */
 }

@@ -5,41 +5,83 @@ import java.util.List;
 
 
 
-
 public class Korisnik 
 {
-	private int Id;
+	private String Id;
 	private String korisnickoIme;
     private String lozinka;
     private String ime;
     private String prezime;
     private String pol;
     private String datumRodjenja;
-    private String uloga;
+    private Uloga uloga;
+    private int brojBodova;
+    private TipKupca tip;
+    
 
-	
+    public enum Uloga {
+       Kupac,
+       Menadzer,
+       Administrator
+    }
+
+    public enum TipKupca {
+        Zlatni,
+        Srebrni,
+        Bronzani
+     }
+
 
   
-	public Korisnik( String korisnickoIme, String lozinka, String ime, String prezime, String pol,
-			String datumRodjenja, String uloga) {
-		super();
-	
-		this.korisnickoIme = korisnickoIme;
-		this.lozinka = lozinka;
-		this.ime = ime;
-		this.prezime = prezime;
-		this.pol = pol;
-		this.datumRodjenja = datumRodjenja;
-		this.uloga = uloga;
+	public int getBrojBodova() {
+		return brojBodova;
 	}
 
 
-	public int getId() {
+	public void setBrojBodova(int brojBodova) {
+		this.brojBodova = brojBodova;
+	}
+
+
+	public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, String pol,
+            String datumRodjenja, Uloga uloga, int brojBodova,TipKupca tip) {
+super();
+this.korisnickoIme = korisnickoIme;
+this.lozinka = lozinka;
+this.ime = ime;
+this.prezime = prezime;
+this.pol = pol;
+this.datumRodjenja = datumRodjenja;
+this.uloga = uloga;
+this.brojBodova = brojBodova;
+this.tip = tip;
+}
+
+public TipKupca getTip() {
+		return tip;
+	}
+
+
+	public void setTip(TipKupca tip) {
+		this.tip = tip;
+	}
+
+
+public Uloga getUloga() {
+return uloga;
+}
+
+public void setUloga(Uloga uloga) {
+this.uloga = uloga;
+}
+
+
+	public String getId() {
 		return Id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		Id = id;
 	}
 
@@ -106,14 +148,7 @@ public class Korisnik
 	}
 
 
-	public String getUloga() {
-		return uloga;
-	}
-
-
-	public void setUloga(String uloga) {
-		this.uloga = uloga;
-	}
+	
 
 
 	public Korisnik() {}

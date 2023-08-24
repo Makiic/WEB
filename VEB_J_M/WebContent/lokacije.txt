@@ -1,6 +1,6 @@
-1;New York;United States
-2;London;United Kingdom
-3;Paris;France
-4;Berlin;Germany
-5;Tokyo;Japan
-6;Sydney;Australia
+1;New York;Nnited States
+2;London;Lnited Kingdom
+3;Aris;Arance
+4;Berlin;Bermany
+5;Tokyo;Tapan
+6;Cydney;Custralia

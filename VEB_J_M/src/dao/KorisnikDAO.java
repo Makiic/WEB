@@ -11,10 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
 import model.Korisnik;
+import model.Korisnik.TipKupca;
+import model.Korisnik.Uloga;
 import model.RentACarObjekat;
 
 public class KorisnikDAO {
@@ -24,25 +27,34 @@ public class KorisnikDAO {
 	
 	public KorisnikDAO() {}
 	
-	//@param
+	/**
+	 * Creates a new instance of KorisnikDAO and initializes it by reading user data
+	 * from the specified file path.
+	 *
+	 * @param contextPath The context path to the user data file.
+	 */
 	public KorisnikDAO(String contextPath) {
-		BufferedReader in = null;
-		try {
-			File file = new File(contextPath + "/korisnik.txt");
-			in = new BufferedReader(new FileReader(file));
-			readUsers(in);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			if ( in != null ) {
-				try {
-					in.close();
-				}
-				catch (Exception e) { }
-			}
-		}
+	    BufferedReader in = null;
+	    try {
+	        realPath = contextPath;
+	        File file = new File(this.realPath);
+	        in = new BufferedReader(new FileReader(file));
+	        readUsers(in);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (in != null) {
+	            try {
+	                in.close();
+	            } catch (Exception e) {
+	                // Handle closing exception if necessary
+	            }
+	        }
+	    }
 	}
+
+
+
 	//@return
 	
 	public Collection<Korisnik> getALL() {
@@ -68,51 +80,56 @@ public class KorisnikDAO {
 	    return korisnik;
 	}
 	//@param
-	private void readUsers(BufferedReader in) {
+	public void readUsers(BufferedReader reader) throws IOException {
 	    String line;
-	    try {
-	        while ((line = in.readLine()) != null) {
-	            line = line.trim();
-	            if (line.equals("") || line.startsWith("#"))
-	                continue;
+	    while ((line = reader.readLine()) != null) {
+	        String[] parts = line.split(";");
+	        if (parts.length >= 8) {
+	            int id = Integer.parseInt(parts[0]);
+	            String korisnickoIme = parts[1];
+	            String lozinka = parts[2];
+	            String ime = parts[3];
+	            String prezime = parts[4];
+	            String pol = parts[5];
+	            String datumRodjenja = parts[6];
+	            Uloga uloga = Uloga.valueOf(parts[7]); // Convert the string to Uloga enum
+	            int brojBodova = 0;
+	            TipKupca tip = null;
 
-	            StringTokenizer st = new StringTokenizer(line, ";");
-
-	            if (st.countTokens() >= 7) {
-	            	
-	                String korisnickoIme = st.nextToken().trim();
-	                String lozinka = st.nextToken().trim();
-	                String ime = st.nextToken().trim();
-	                String prezime = st.nextToken().trim();
-	                String pol = st.nextToken().trim();
-	                String datumRodjenja = st.nextToken().trim();
-	                String uloga = st.nextToken().trim();
-
-	                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
-	                LocalDate date = LocalDate.parse(datumRodjenja, formatter);
-
-	                Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga);
-	                korisnici.put(korisnickoIme, korisnik);
-	                listaKorisnika.add(korisnik);
+	            if (uloga.equals(Uloga.Kupac) && parts.length >= 9) {
+	                brojBodova = Integer.parseInt(parts[8]);
 	            }
+
+	            if (parts.length >= 10) {
+	                tip = TipKupca.valueOf(parts[9]); // Convert the string to TipKupca enum
+	            }
+
+	            Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol,
+	                datumRodjenja, uloga, brojBodova, tip);
+
+	            // Add the created Korisnik object to your data structure
+	            korisnici.put(korisnickoIme, korisnik);
 	        }
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
 	    }
 	}
+
 	
 	public void writeUser(Korisnik korisnik) {
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath, true))) {
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.realPath, true));
+) {
 	        StringBuilder line = new StringBuilder();
 	        
 	        // Append user data to the line
-	        line.append(korisnik.getKorisnickoIme()).append(";")
-	            .append(korisnik.getLozinka()).append(";")
-	            .append(korisnik.getIme()).append(";")
-	            .append(korisnik.getPrezime()).append(";");
-	            /*.append(korisnik.getPol()).append(";")
-	            .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
-	            .append(korisnik.getUloga()).append(";");*/
+	        line
+            .append(korisnik.getKorisnickoIme()).append(";")
+            .append(korisnik.getLozinka()).append(";")
+            .append(korisnik.getIme()).append(";")
+            .append(korisnik.getPrezime()).append(";")
+            .append(korisnik.getPol()).append(";")
+            .append(korisnik.getDatumRodjenja()).append(";")
+            .append(korisnik.getUloga()).append(";")
+            .append(korisnik.getTip()).append(";");
+
 	        
 	        // Write the line to the file
 	        writer.write(line.toString());
@@ -128,56 +145,67 @@ public class KorisnikDAO {
 			return korisnici.remove(korisnickoIme);
 		}
 		
-		public Korisnik update(Korisnik updatedKorisnik) {
-			Korisnik korisnikUpdate = this.pronadji(updatedKorisnik.getKorisnickoIme());
+		public Korisnik update(Korisnik updatedUser) {
+		    Korisnik userToUpdate = this.pronadji(updatedUser.getKorisnickoIme());
+		    
+		    if (userToUpdate != null) {
+		        // Update the existing user object with the new data
+		        userToUpdate.setLozinka(updatedUser.getLozinka());
+		        userToUpdate.setIme(updatedUser.getIme());
+		        userToUpdate.setPrezime(updatedUser.getPrezime());
+		        userToUpdate.setPol(updatedUser.getPol());
+		        userToUpdate.setDatumRodjenja(updatedUser.getDatumRodjenja());
 
-		    if (korisnikUpdate != null) {
-		        korisnici.remove(updatedKorisnik.getKorisnickoIme()); // Delete the line containing the found user
-
-		        // Create a new User object with updated data
-		        Korisnik noviKorisnik = new Korisnik(
-		        		updatedKorisnik.getKorisnickoIme(),
-		        		updatedKorisnik.getLozinka(),
-		        		updatedKorisnik.getIme(),
-		        		updatedKorisnik.getPrezime(),
-		        		updatedKorisnik.getPol(),
-		        		updatedKorisnik.getDatumRodjenja(),
-		        		updatedKorisnik.getUloga()
-		        );
-
-		        korisnici.put(updatedKorisnik.getKorisnickoIme(), noviKorisnik); // Insert the updated user
-		        
-		        for(Korisnik korisnik: korisnici.values()) {
-		        	System.out.println(korisnik);
-		        }
-
+		        korisnici.put(updatedUser.getKorisnickoIme(), userToUpdate); // Insert the updated user
+		       
 		        // Rewrite the entire file with updated user data
 		        rewriteUsersFile();
 
-		        return noviKorisnik;
+		        return userToUpdate;
 		    }
 
 		    return null; // User not found
 		}
-		
+
 		private void rewriteUsersFile() {
 		    try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath))) {
 		        for (Korisnik korisnik : korisnici.values()) {
 		            StringBuilder line = new StringBuilder();
+		            line
+		            .append(korisnik.getKorisnickoIme()).append(";")
+		                .append(korisnik.getLozinka()).append(";")
+		                .append(korisnik.getIme()).append(";")
+		                .append(korisnik.getPrezime()).append(";")
+		                .append(korisnik.getPol()).append(";")
+		                .append(korisnik.getDatumRodjenja()).append(";")
+		                .append(korisnik.getUloga()).append(";")
+		                .append(korisnik.getBrojBodova()).append(";")
+		                .append(korisnik.getTip()).append(";");
 
-		            line.append(korisnik.getKorisnickoIme()).append(";")
-		            .append(korisnik.getLozinka()).append(";")
-		            .append(korisnik.getIme()).append(";")
-		            .append(korisnik.getPrezime()).append(";")
-		            .append(korisnik.getPol()).append(";")
-	                .append(korisnik.getDatumRodjenja().formatted(DateTimeFormatter.ofPattern("dd-MMM-yyyy"))).append(";")
-		            .append(korisnik.getUloga()).append(";");
-
-		        writer.write(line.toString());
-		        writer.newLine();
+		            writer.write(line.toString());
+		            writer.newLine();
+		            writer.flush(); // Ensure immediate writing
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
 		}
+
+
+
+		public Korisnik getKorisnikByKorisnickoIme(String korisnickoIme) {
+		    // Assuming you have a list of Korisnik objects stored in some data structure
+		    List<Korisnik> korisnici = new ArrayList<>(); // Initialize an ArrayList to store the Korisnik objects
+
+		    for (Korisnik korisnik : korisnici) {
+		        if (korisnik.getKorisnickoIme().equals(korisnickoIme)) {
+		            return korisnik;
+		        }
+		    }
+
+		    return null; // Return null if user with the given username is not found
+		}
+
+
+
 }
