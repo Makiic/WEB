@@ -54,7 +54,7 @@ public class KorisnikService{
 	    init();
 	    KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 	    
-	    
+	    // Set default values for role and points if they are not provided
 	    if (korisnik.getUloga() == null) {
 	        korisnik.setUloga(Uloga.Kupac); 
 	    }
