@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Korisnik 
 {
-	private int Id;
+	private String Id;
 	private String korisnickoIme;
     private String lozinka;
     private String ime;
@@ -76,12 +76,12 @@ this.uloga = uloga;
 }
 
 
-	public int getId() {
+	public String getId() {
 		return Id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		Id = id;
 	}
 

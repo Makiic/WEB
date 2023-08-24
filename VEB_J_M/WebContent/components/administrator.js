@@ -136,15 +136,20 @@ Vue.component('Administrator', {
     },
   },
 mounted() {
-  // Fetch the list of users from the server and store them in the korisnici array
-  // Example:
   axios
     .get('korisnik.txt')
     .then(response => {
       const data = response.data.split('\n');
-      this.korisnici = data.map(line => {
-        const [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, brojBodova] = line.split(';');
-        return {
+      
+      console.log('Fetched data:', data);
+
+      const users = [];
+      for (const line of data) {
+        console.log('Line:', line);
+        const [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, ...rest] = line.split(';');
+        console.log('Split values:', [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, ...rest]);
+        
+        const user = {
           Id: parseInt(Id.trim()),
           korisnickoIme: korisnickoIme.trim(),
           lozinka: lozinka.trim(),
@@ -153,14 +158,23 @@ mounted() {
           pol: pol.trim(),
           datumRodjenja: datumRodjenja.trim(),
           uloga: uloga.trim(),
-          brojBodova: parseInt(brojBodova.trim())
         };
-      });
+        
+        // Check if there are extra fields for points
+        if (rest.length > 0) {
+          user.brojBodova = parseInt(rest[0].trim());
+        }
+        
+        users.push(user);
+      }
+
+      this.korisnici = users;
     })
     .catch(error => {
       console.error('Error fetching users:', error);
     });
 },
+
 
    computed: {
     filteredUsers() {

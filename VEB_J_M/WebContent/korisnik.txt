@@ -1,3 +1,5 @@
-1;mara;123;MArija;Ilic;Zenski;27-Nov-2001;Administrator;
-2;marta;123;MArtija;Iltic;Zenski;27-Nov-2001;Kupac;6;Zlatni
-3;mareeta;123;MArtija;Iltdddic;Zenski;27-Nov-2001;Menadzer;
+ss;ss;ssmmm;ss;zenski;2023-08-29;Kupac;0;null;
+aa;a;a;as;muski;2023-09-01;Kupac;0;null;
+ddds;dd;ddddf;dddd;muski;2023-08-01;Kupac;0;null;
+ccc;ccc;cc;cc;zenski;2023-09-01;Kupac;0;null;
+cccc;cc;cc;cc;muski;2023-08-30;Kupac;0;null;

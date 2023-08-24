@@ -55,37 +55,39 @@ Vue.component("homepage", {
       event.preventDefault();
     }
   },
-  mounted() {
-    // Fetching user data from "korisnik.txt"
-    axios
-      .get('korisnik.txt')
-      .then(response => {
-        const usersData = response.data.split('\n');
-        let userFound = false;
+mounted() {
+  // Fetching user data from "korisnik.txt"
+  axios
+    .get('korisnik.txt')
+    .then(response => {
+      const usersData = response.data.split('\n');
+      let userFound = false;
 
-        for (let i = 0; i < usersData.length; i++) {
-          const userData = usersData[i];
-          const [korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga] = userData.split(';');
+      for (let i = 0; i < usersData.length; i++) {
+        const userData = usersData[i];
+        const [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, brojBodova] = userData.split(';');
 
-          if (korisnickoIme.trim() === this.korisnickoIme.trim()) {
-            this.korisnik.korisnickoIme = korisnickoIme.trim();
-            this.korisnik.lozinka = lozinka.trim();
-            this.korisnik.ime = ime.trim();
-            this.korisnik.prezime = prezime.trim();
-            this.korisnik.pol = pol.trim();
-            this.korisnik.datumRodjenja = datumRodjenja.trim();
-            this.korisnik.uloga = uloga.trim();
-            userFound = true;
-            break;
-          }
+        if (korisnickoIme.trim() === this.korisnickoIme.trim()) {
+          this.korisnik.korisnickoIme = korisnickoIme.trim();
+          this.korisnik.lozinka = lozinka.trim();
+          this.korisnik.ime = ime.trim();
+          this.korisnik.prezime = prezime.trim();
+          this.korisnik.pol = pol.trim();
+          this.korisnik.datumRodjenja = datumRodjenja.trim();
+          this.korisnik.uloga = uloga.trim();
+          this.korisnik.brojBodova = parseInt(brojBodova.trim());
+          userFound = true;
+          break;
         }
+      }
 
-        if (!userFound) {
-          console.error('User not found');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-  }
+      if (!userFound) {
+        console.error('User not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+
+}
 });

@@ -2,7 +2,17 @@ Vue.component("edit", {
   data() {
     return {
       korisnickoIme: this.$route.params.korisnickoIme,
-      korisnik: null
+      korisnik: {
+        korisnickoIme: null,
+        lozinka: null,
+        ime: null,
+        prezime: null,
+        pol: null,
+        datumRodjenja: null,
+        uloga: null,
+        tip: null
+      },
+      originalKorisnikData: {}
     };
   },
   mounted() {
@@ -10,10 +20,32 @@ Vue.component("edit", {
   },
   methods: {
     getUserData() {
-      axios
-        .get('rest/korisnici/getUser/' + this.korisnickoIme)
+      axios.get('korisnik.txt')
         .then(response => {
-          this.korisnik = response.data;
+          const usersData = response.data.split('\n');
+          let userFound = false;
+
+          for (let i = 0; i < usersData.length; i++) {
+            const userData = usersData[i];
+            const [korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, brojBodova] = userData.split(';');
+
+            if (korisnickoIme.trim() === this.korisnickoIme.trim()) {
+				
+              this.korisnik.korisnickoIme = korisnickoIme.trim();
+              this.korisnik.lozinka = lozinka.trim();
+              this.korisnik.ime = ime.trim();
+              this.korisnik.prezime = prezime.trim();
+              this.korisnik.pol = pol.trim();
+              this.korisnik.datumRodjenja = datumRodjenja.trim();
+              this.korisnik.uloga = uloga.trim();
+              this.korisnik.brojBodova = brojBodova.trim();
+            
+
+              userFound = true;
+               this.originalKorisnikData = { ...this.korisnik };
+              break;
+            }
+          }
         })
         .catch(error => {
           console.error('Error fetching user data:', error);
@@ -22,28 +54,48 @@ Vue.component("edit", {
     tryEdit() {
       this.saveUser();
     },
-    saveUser() {
-		console.log(this.korisnik)
-      axios
-        .put('rest/korisnici/edit/' + this.korisnickoIme, this.korisnik)
-        .then(response => {
-          console.log('User updated successfully:', response.data);
-          // Add code to display a success message for user update
-        })
-        .catch(error => {
-          console.error('Error updating user:', error);
-          // Display error details
-          if (error.response) {
-            console.log('Response data:', error.response.data);
-            console.log('Response status:', error.response.status);
-            console.log('Response headers:', error.response.headers);
-          } else if (error.request) {
-            console.log('Request:', error.request);
-          } else {
-            console.log('Error:', error.message);
-          }
-          // Add code to display an error message for user update failure
-        });
+   saveUser() {
+  axios.put('rest/korisnici/edit/' + this.korisnickoIme, this.korisnik)
+    .then(response => {
+      console.log('User updated successfully:', response.data);
+
+      console.log('Changed properties:', this.calculateChanges());
+
+      const updatedUserData = response.data;
+
+      // Store the original user data
+      this.originalKorisnikData = { ...this.korisnik };
+
+      // Update the local component state to reflect the changes
+      this.korisnik = updatedUserData;
+
+      // Calculate and store the changes (not necessary here, as you've already logged them)
+      // this.calculateChanges();
+
+      // Add code to display a success message for user update
+    })
+    .catch(error => {
+      console.error('Error updating user:', error);
+      // Display error details...
+    });
+},
+
+   calculateChanges() {
+  const changes = {};
+  for (const key in this.originalKorisnikData) {
+    if (this.korisnik[key] !== this.originalKorisnikData[key]) {
+      changes[key] = {
+        from: this.originalKorisnikData[key],
+        to: this.korisnik[key]
+      };
+    }
+  }
+  return changes;
+},
+
+    writeFile(filename, data) {
+      // Simulated file write function, you should replace this with the appropriate code
+      console.log(`Writing data to ${filename}:`, data);
     }
   },
   template: `
@@ -84,3 +136,4 @@ Vue.component("edit", {
     </div>
   `
 });
+
