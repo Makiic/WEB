@@ -144,7 +144,7 @@ Vue.component("rent-a-car", {
       
       	<link rel="stylesheet" href="css/pocetna.css">
       	<div class="login-bar">
-		  <button class="login-button">Prijavi se</button>
+		  <router-link to="/login" class="login-button">Prijavi se</router-link>
 		</div>
         <img src="images/cover.JPG" alt="Image" style="width: 100%;">
         <div class="menu-bar-rent-objects">

@@ -20,51 +20,50 @@ Vue.component("prikaz-objekta", {
   template: `
   <div>
   <div class="login-bar">
-		  <button class="login-button">Prijavi se</button>
-		</div>
-        <img src="images/cover.JPG" alt="Image" style="width: 100%;">
-	<div class="content">
-	
-  <div class="column-1">
-    <div class="column-1-content">
-    </div>
-  </div>
-  <div class="column-2">
-    <div class="object-details">
-      <div v-if="selectedObject">
-        <div class="object-header">
-          <img :src="selectedObject.logo" alt="Logo" class="logo" />
-          <div class="object-info">
-            <p class="naziv-objekta">{{ selectedObject.naziv }}</p>
-            <p>Lokacija: {{ getLokacijaById(selectedObject.lokacija) }}</p>
-            <p>Radno vreme: {{ selectedObject.startVreme }} - {{ selectedObject.endVreme }}</p>
-            <p>Prosecna ocena: {{ selectedObject.ocena }}</p>
-            <p>{{ statusDisplay }}</p>
-          </div>
-        </div>
-        <div class="vozila-container" v-if="selectedObject.vozilaUPonudi.length">
-          <h3>Vozila u ponudi:</h3>
-          <div v-for="voziloId in selectedObject.vozilaUPonudi" :key="voziloId" class="vozilo-container">
-            <div class="vozilo-details">
-		        <div class="vozilo-left">
-		          <img :src="'images/' + vozila[voziloId].slika" :alt="'slika ' + vozila[voziloId].marka" width="70" height="70">
-		        </div>
-		        <div class="vozilo-right">
-		          <p>Marka: {{ vozila[voziloId].marka }}</p>
-		          <p>Model: {{ vozila[voziloId].model }}</p>
-		          <p>Tip goriva: {{ vozila[voziloId].tipGoriva }}</p>
-		          <p>Vrsta menjaca: {{ vozila[voziloId].vrstaMenjaca }}</p>
-		        </div>
-		      </div>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
-    </div>
-  </div>
-</div>
+	  <router-link to="/login" class="login-button">Prijavi se</router-link>
+	</div>
+    <img src="images/cover.JPG" alt="Image" style="width: 100%;">
+	<div class="content">	
+	  <div class="column-1">
+	    <div class="column-1-content">
+	    </div>
+	  </div>
+	  <div class="column-2">
+	    <div class="object-details">
+	      <div v-if="selectedObject">
+	        <div class="object-header">
+	          <img :src="selectedObject.logo" alt="Logo" class="logo" />
+	          <div class="object-info">
+	            <p class="naziv-objekta">{{ selectedObject.naziv }}</p>
+	            <p>Lokacija: {{ getLokacijaById(selectedObject.lokacija) }}</p>
+	            <p>Radno vreme: {{ selectedObject.startVreme }} - {{ selectedObject.endVreme }}</p>
+	            <p>Prosecna ocena: {{ selectedObject.ocena }}</p>
+	            <p>{{ statusDisplay }}</p>
+	          </div>
+	        </div>
+	        <div class="vozila-container" v-if="selectedObject.vozilaUPonudi.length">
+	          <h3>Vozila u ponudi:</h3>
+	          <div v-for="voziloId in selectedObject.vozilaUPonudi" :key="voziloId" class="vozilo-container">
+	            <div class="vozilo-details">
+			        <div class="vozilo-left">
+			          <img :src="'images/' + vozila[voziloId].slika" :alt="'slika ' + vozila[voziloId].marka" width="70" height="70">
+			        </div>
+			        <div class="vozilo-right">
+			          <p>Marka: {{ vozila[voziloId].marka }}</p>
+			          <p>Model: {{ vozila[voziloId].model }}</p>
+			          <p>Tip goriva: {{ vozila[voziloId].tipGoriva }}</p>
+			          <p>Vrsta menjaca: {{ vozila[voziloId].vrstaMenjaca }}</p>
+			        </div>
+			      </div>
+	          </div>
+	        </div>
+	      </div>
+	      <div v-else>
+	        <p>Loading...</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 
 
