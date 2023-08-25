@@ -40,7 +40,7 @@ public class KorisnikService{
 	 */
 	private void init() {
 	    if (ctx.getAttribute("korisnikDAO") == null) {
-	        String realPath = "C:/Users/marai/OneDrive/Desktop/projekatizveba/jokaimaraweb/VEB_J_M/WebContent/korisnik.txt"; // Absolute path
+	        String realPath = "C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\korisnik.txt"; // Absolute path
 	        ctx.setAttribute("korisnikDAO", new KorisnikDAO(realPath));
 	    }
 	}

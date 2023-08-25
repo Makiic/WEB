@@ -1,252 +1,3 @@
-@import url('https://rsms.me/inter/inter-ui.css');
-
-::selection {
-  background: #2D2F36;
-}
-
-::-webkit-selection {
-  background: #2D2F36;
-}
-
-::-moz-selection {
-  background: #2D2F36;
-}
-
-body {
-  background: white;
-  font-family: 'Inter UI', sans-serif;
-  margin: 0;
-  padding: 20px;
-}
-
-.page {
-  background: #e2e2e5;
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 40px);
-  position: absolute;
-  place-content: center;
-  width: calc(100% - 40px);
-}
-
-@media (max-width: 767px) {
-  .page {
-    height: auto;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-  }
-}
-
-.container {
-  display: flex;
-  height: 320px;
-  margin: 0 auto;
-  width: 640px;
-}
-
-@media (max-width: 767px) {
-  .container {
-    flex-direction: column;
-    height: 630px;
-    width: 320px;
-  }
-}
-
-.left {
-  background: white;
-  height: calc(100% - 40px);
-  top: 20px;
-  position: relative;
-  width: 50%;
-}
-
-@media (max-width: 767px) {
-  .left {
-    height: 100%;
-    left: 20px;
-    width: calc(100% - 40px);
-    max-height: 270px;
-  }
-}
-
-.login {
-  font-size: 50px;
-  font-weight: 900;
-  margin: 50px 40px 40px;
-}
-.eula {
-  color: #999;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 40px;
-  
-}
-
-.right {
-  background: #474A59;
-  box-shadow: 0px 0px 40px 16px rgba(0,0,0,0.22);
-  color: #F1F1F2;
-  position: relative;
-  width: 50%;
-}
-
-@media (max-width: 767px) {
-  .right {
-    flex-shrink: 0;
-    height: 100%;
-    width: 100%;
-    max-height: 350px;
-  }
-}
-
-svg {
-  position: absolute;
-  width: 320px;
-}
-
-path {
-  fill: none;
-  stroke: url(#linearGradient);
-  stroke-width: 4;
-  stroke-dasharray: 240 1386;
-}
-
-.login-form {
-  margin: 40px;
-  position: absolute;
-}
-
-small {
-  color: #c2c2c5;
-  display: block;
-  font-size: 14px;
-  height: 16px;
-  margin-top: 20px;
-  margin-bottom: 5px;
-}
-
-input {
-  background: transparent;
-  border: 0;
-  color: #f2f2f2;
-  font-size: 20px;
-  height: 30px;
-  line-height: 30px;
-  outline: none !important;
-  width: 100%;
-}
-
-input::-moz-focus-inner {
-  border: 0;
-}
-
-.login-button, .register-button {
-  color: #707075;
-  
-  margin-top: 40px;
-  transition: color;
-  border-radius: 50px; /* Dodajemo okrugle ivice */
-  padding: 15px 30px; /* Dodajemo malo padding-a za izgled dugmeta */
-  background-color: #f2f2f2; /* Dodajemo pozadinsku boju dugmeta */
-  border: none; /* Uklanjamo ivicu dugmeta */
-  
-   font-size: 16px;
-   cursor: pointer; /* Promenimo kursor prilikom prelaska preko dugmeta */
-}
-
-/* Dodatni stilovi prilikom prelaska mišem preko dugmeta */
-.login-button:hover, .register-button:hover {
-  background-color: #dcdcdc;
-}
-
-.login-button:focus,
-.register-button:focus {
-  color: #f2f2f2;
-}
-
-.login-button:active,
-.register-button:active {
-  color: #d0d0d2;
-}
-.small {
-  color: #c2c2c5;
-  display: block;
-  font-size: 14px;
-  height: 16px;
-  margin-top: 20px;
-  margin-bottom: 5px;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-}
-.wrapper{
-  position: relative;
-  max-width: 430px;
-  width: 100%;
-  background: #7ca7eb;
-  padding: 34px;
-  border-radius: 6px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  margin-left: auto;
-  margin-right: auto;
-}
-.wrapper h2{
-  position: relative;
-  font-size: 22px;
-  font-weight: 600;
-  color: #fff;
-}
-.wrapper h2::before{
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 28px;
-  border-radius: 12px;
-  background: #4070f4;
-}
-.wrapper form{
-  margin-top: 30px;
-}
-.wrapper form .input-box{
-  height: 52px;
-  margin: 18px 0;
-}
-form .input-box input{
-  height: 100%;
-  width: 100%;
-  outline: none;
-  padding: 0 15px;
-  font-size: 17px;
-  font-weight: 400;
-  color: #333;
-  border: 1.5px solid #C7BEBE;
-  border-bottom-width: 2.5px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
-.input-box input:focus,
-.input-box input:valid{
-  border-color: #4070f4;
-}
-.input-box.reg_button input{
-  color: #fff;
-  letter-spacing: 1px;
-  border: none;
-  background: #4070f4;
-  cursor: pointer;
-}
-.input-box.reg_button input:hover{
-  background: #0e4bf1;
-}
-.form-footer a {
-  margin-left: 700px;
-  margin-right: 400px;
-}
 .centered-text {
     text-align: center;
 }
@@ -255,10 +6,13 @@ form .input-box input{
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  margin-top: -5px;
+  margin-right: -90px;
+  margin-left: -90px;
   padding: 10px;
   background-color: #2e2e2e;
-  border-radius: 10px;
-  margin-left: 30px; /* Add this line to align with the sort container */
+  border-radius: 0px 0px 10px 10px;
+  width:99%;
 }
 .menu-bar-rent-objects .searchCar,
 .menu-bar-rent-objects select {
@@ -298,7 +52,88 @@ form .input-box input{
   font-weight: bold; /* Make the text bold */
   color: #ff8000;
 }
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 30px;
+  margin-left: 80px;
+  margin-right: -20px;
+  width: 90%;
+}
 
+.object {
+  width: 420px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space items vertically */
+  align-items: center;
+  padding: 10px;
+  margin-left: 30px;
+  margin-right: 20px;
+  transition: all 0.3s;
+  margin-bottom: 20px;
+}
+
+.object:hover {
+  box-shadow: 0 0 20px #2e2e2e;
+}
+
+@media (max-width: 767px) {
+  .object {
+    width: calc(50% - 20px); /* On smaller screens, show 2 objects per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .object {
+    width: 100%; /* On even smaller screens, show 1 object per row */
+  }
+}
+.object .info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.object .name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #ff8000;
+  text-align: center; /* Center-align the text */
+  text-decoration: none; /* Remove underline */
+  cursor: default; /* Remove underlining */
+}
+
+.object .location {
+  font-weight: normal;
+  font-size: 16px;
+  margin-top: 5px;
+  text-align: center; /* Center-align the text */
+  text-decoration: none; /* Remove underline */
+  cursor: default;/* Remove underlining */
+}
+
+.object .ocena {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333; /* Adjust the color if needed */
+  text-align: center; /* Center-align the text */
+  text-decoration: none; /* Remove underline */
+  cursor: default; /* Remove underlining */
+}
+.object .logo{
+  margin-top: 5px;
+}
+.page {
+  display: flex;
+  background: white;
+  flex-direction: row; /* Align the "Sortiraj" and "object" containers horizontally */
+}
 
 .sort-container {
   /* Style for the sorting section */
@@ -310,8 +145,8 @@ form .input-box input{
   height: 480px;
   border-radius: 10px;
   padding: 20px;
-  margin-top: 20px;
-  margin-left: 30px; /* Keep the same margin as the menu */
+  margin-top: 23px;
+  margin-left: 2px; /* Keep the same margin as the menu */
   margin-right: 10px; /* Keep the same margin as the menu */
 }
 
@@ -471,4 +306,35 @@ form .input-box input{
 
 .menu-bar-rent-objects label[for="searchTip"], .menu-bar-rent-objects label[for="searchLokacija"] {
   color: #2e2e2e; /* Change foreground color */
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.logo-container img {
+  width: 150px; /* Adjust the size of the logo */
+  height: auto;
+}
+.login-bar {
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  align-items: flex-start; /* Align items to the top */
+  background-color: #2e2e2e;
+  height: 50px; /* Adjusted height */
+  border-radius: 10px 10px 0 0;
+  padding: 10px 20px; /* Added padding to vertically center the button */
+}
+
+.login-button {
+  border: none;
+  background-color: #ff8000;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: -1px; 
+  margin-right: -11px;
+  border-radius: 5px; /* Adjust the corner radius as desired */
 }
