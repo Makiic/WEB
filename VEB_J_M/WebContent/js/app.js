@@ -5,6 +5,8 @@ const Edit = {template: "<edit></edit>"}
 const RentACar = {template: "<rent-a-car></rent-a-car>"}
 const Administrator = {template: "<administrator></administrator>"}
 const PrikazObjekta = {template: "<prikaz-objekta></prikaz-objekta>"}
+const KorisnikPocetna = {template: "<korisnik-pocetna></korisnik-pocetna>"}
+const ProfilKorisnika = {template: "<profil-korisnika></profil-korisnika>"}
 
 const router = new VueRouter({
 	mode: 'hash',  
@@ -15,7 +17,10 @@ const router = new VueRouter({
 		{path : "/edit/:korisnickoIme", component: Edit},
 		{path : "/rentACar", component: RentACar},
 		{path : "/Administrator", component: Administrator},
-		{ path: '/rentACar/:id', name: 'rent-a-car-details', component: PrikazObjekta },
+		{path : '/rentACar/:id', name: 'rent-a-car-details', component: PrikazObjekta },
+ 		{path : "/korisnikPocetna/:korisnickoIme/profilKorisnika", component: ProfilKorisnika },
+		{path : "/korisnikPocetna/:korisnickoIme",name: 'logged-korisnik-pocetna', component: KorisnikPocetna},
+  
 		]
 	
 });

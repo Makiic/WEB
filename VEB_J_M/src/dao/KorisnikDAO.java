@@ -62,8 +62,8 @@ public class KorisnikDAO {
 	}
 	//@return
 	//@param
-	public Korisnik pronadji(String id) {
-		return korisnici.containsKey(id) ? korisnici.get(id) : null;
+	public Korisnik pronadji(String korisnickoIme) {
+		return korisnici.containsKey(korisnickoIme) ? korisnici.get(korisnickoIme) : null;
 	}
 	/**
 	 * Dodavanej studenta u kolekciju studenata

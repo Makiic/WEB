@@ -27,7 +27,7 @@ template:
         <small>{{ errorMessages.lozinka }}</small>
         <input type="password" placeholder="Lozinka" v-model="korisnik.lozinka">
      
-       <router-link class="login-button" :to="'/homepage/' + korisnik.korisnickoIme">
+       <router-link class="login-button" @click="loginClicked" :to="{ name: 'logged-korisnik-pocetna', params: { korisnickoIme:korisnik.korisnickoIme } }">
             Login
           </router-link>
         <input type="button" class="register-button" value="REgister">
@@ -42,7 +42,9 @@ template:
  
 , methods: {
 
-  
+  loginClicked() {
+    this.$emit('login', this.korisnik.korisnickoIme);
+  },
 
   TryLogin() {
     let valid = true;
