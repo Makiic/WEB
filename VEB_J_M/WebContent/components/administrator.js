@@ -71,31 +71,36 @@ Vue.component('Administrator', {
     </div>
   </div>
 
-  <!-- Users table -->
-  <div class="users-table">
-    <h3 class="section-title">Users</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>FirstName</th>
-          <th>LastName</th>
-          <th>Username</th>
-          <th>Role</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="korisnik in filteredUsers" :key="korisnik.Id">
-          <td>{{ korisnik.ime }}</td>
-          <td>{{ korisnik.prezime }}</td>
-          <td>{{ korisnik.korisnickoIme }}</td>
-          <td>{{ korisnik.uloga }}</td>
-          <td>{{ korisnik.brojBodova }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    <div class="users-table">
+        <h3 class="section-title">Users</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>FirstName</th>
+              <th>LastName</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Points</th>
+              <th>Block/Unblock</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="korisnik in filteredUsers" :key="korisnik.korisnickoIme">
+              <td>{{ korisnik.ime }}</td>
+              <td>{{ korisnik.prezime }}</td>
+              <td>{{ korisnik.korisnickoIme }}</td>
+              <td>{{ korisnik.uloga }}</td>
+              <td>{{ korisnik.brojBodova }}</td>
+              <td>
+                <button @click="toggleBlock(korisnik)">
+                  {{ korisnik.blocked ? 'Unblock' : 'Block' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   `,
   methods: {
@@ -134,8 +139,18 @@ Vue.component('Administrator', {
 
 
     },
+      toggleBlock(korisnik) {
+      // Toggle the blocked property of the user
+      korisnik.blocked = !korisnik.blocked;
+
+      // If user is blocked, reset their role and user type
+      if (korisnik.blocked) {
+        korisnik.uloga = '';
+        korisnik.userType = '';
+      }
+    },
   },
-mounted() {
+ mounted() {
   axios
     .get('korisnik.txt')
     .then(response => {
@@ -146,26 +161,30 @@ mounted() {
       const users = [];
       for (const line of data) {
         console.log('Line:', line);
-        const [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, ...rest] = line.split(';');
-        console.log('Split values:', [Id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, ...rest]);
+        const fields = line.split(';');
         
-        const user = {
-          Id: parseInt(Id.trim()),
-          korisnickoIme: korisnickoIme.trim(),
-          lozinka: lozinka.trim(),
-          ime: ime.trim(),
-          prezime: prezime.trim(),
-          pol: pol.trim(),
-          datumRodjenja: datumRodjenja.trim(),
-          uloga: uloga.trim(),
-        };
-        
-        // Check if there are extra fields for points
-        if (rest.length > 0) {
-          user.brojBodova = parseInt(rest[0].trim());
+        // Check if there are at least 8 fields (including korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, userType)
+        if (fields.length >= 8) {
+          const [korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja, uloga, userType, ...rest] = fields;
+
+          const user = {
+            korisnickoIme: korisnickoIme.trim(),
+            lozinka: lozinka.trim(),
+            ime: ime.trim(),
+            prezime: prezime.trim(),
+            pol: pol.trim(),
+            datumRodjenja: datumRodjenja.trim(),
+            uloga: uloga.trim(),
+            userType: userType.trim(),
+          };
+
+          // Check if there are extra fields for points
+          if (rest.length > 0) {
+            user.brojBodova = parseInt(rest[0].trim()) || 0;
+          }
+
+          users.push(user);
         }
-        
-        users.push(user);
       }
 
       this.korisnici = users;
@@ -174,6 +193,7 @@ mounted() {
       console.error('Error fetching users:', error);
     });
 },
+
 
 
    computed: {
