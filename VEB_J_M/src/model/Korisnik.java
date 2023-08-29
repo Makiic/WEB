@@ -18,7 +18,7 @@ public class Korisnik
     private int brojBodova;
     private TipKupca tip;
     
-
+    private List<String> svaIznajmljivanja;
     public enum Uloga {
        Kupac,
        Menadzer,
@@ -85,7 +85,7 @@ this.uloga = uloga;
 		Id = id;
 	}
 
-
+	
 	public String getKorisnickoIme() {
 		return korisnickoIme;
 	}
@@ -147,7 +147,13 @@ this.uloga = uloga;
 		this.datumRodjenja = datumRodjenja;
 	}
 
+	public List<String> getSvaIznajmljivanja() {
+        return svaIznajmljivanja;
+    }
 
+    public void setSvaIznajmljivanja(List<String> svaIznajmljivanja) {
+        this.svaIznajmljivanja = svaIznajmljivanja;
+    }
 	
 
 

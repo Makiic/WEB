@@ -45,7 +45,14 @@ public class KorisnikService{
 	    }
 	}
 
-
+	@GET
+	@Path("/getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> getProducts() {
+		KorisnikDAO dao = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
+		return dao.getALL();
+	}
+	
 	@POST
 	@Path("/registracija")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -71,7 +78,6 @@ public class KorisnikService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Collection<Korisnik> getRegistersUsers(){
 		
-		System.out.println("USLO da prostis");
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 		return korisnikDAO.getALL();
 	}
@@ -80,15 +86,24 @@ public class KorisnikService{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik getUser(@PathParam("korisnickoIme") String korisnickoIme) {
+		System.out.println("getUser called with korisnickoIme: " + korisnickoIme);
+		init();
 	    KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
-	    return korisnikDAO.pronadji(korisnickoIme);
+	    Korisnik foundKorisnik = korisnikDAO.pronadji(korisnickoIme);
+
+	    if (foundKorisnik == null) {
+	        System.out.println("User not found.");
+	    } else {
+	        System.out.println("User found: " + foundKorisnik.toString());
+	    }
+
+	    return foundKorisnik;
 	}
 	@PUT
 	@Path("/edit/{korisnickoIme}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik updateUser(@PathParam("korisnickoIme") String korisnickoIme, Korisnik updatedKorisnik) {
-		System.out.println("USLO da prostis");
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 	    
 	    Korisnik updatedUser = korisnikDAO.update(updatedKorisnik); 
