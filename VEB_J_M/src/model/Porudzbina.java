@@ -26,17 +26,13 @@ public class Porudzbina {
 
     public Porudzbina(String id, List<Integer> iznajmljenaVozila, int objekat,
     		String datumIznajmljivanja, int trajanjeNajma, double cena,
-                      Korisnik korisnik, StatusPorudzbine status) {
+    		String imePrezimeKupca, StatusPorudzbine status) {
         this.id = id;
         this.iznajmljenaVozila = iznajmljenaVozila;
         this.objekat = objekat;
         this.datumIznajmljivanja = datumIznajmljivanja;
         this.trajanjeNajma = trajanjeNajma;
         this.cena = cena;
-        if (korisnik.getUloga() == Uloga.Kupac) {
-            
-            this.imePrezimeKupca = korisnik.getIme() + " " + korisnik.getPrezime();
-        }
         this.status = status;
     }
 

@@ -8,6 +8,7 @@ const PrikazObjekta = {template: "<prikaz-objekta></prikaz-objekta>"}
 const KorisnikPocetna = {template: "<korisnik-pocetna></korisnik-pocetna>"}
 const ProfilKorisnika = {template: "<profil-korisnika></profil-korisnika>"}
 const ProfilAdmina = {template: "<admin-pocetna></admin-pocetna>"}
+const PregledKorpe = {template: "<pregled-korpe></pregled-korpe>"}
 
 
 const router = new VueRouter({
@@ -19,10 +20,11 @@ const router = new VueRouter({
 		{path : "/edit/:korisnickoIme", component: Edit},
 		{path : "/rentACar", component: RentACar},
 		{path : "/Administrator", component: Administrator},
-		{path : '/rentACar/:id', name: 'rent-a-car-details', component: PrikazObjekta },
  		{path : "/korisnikPocetna/:korisnickoIme/profilKorisnika", component: ProfilKorisnika },
+		{path : '/login/:korisnickoIme/:id', name: 'rent-a-car-details', component: PrikazObjekta },
 		{path : "/korisnikPocetna/:korisnickoIme",name: 'logged-korisnik-pocetna', component: KorisnikPocetna},
   		{path : "/adminPocetna/:korisnickoIme",name: 'logged-admin-pocetna', component: ProfilAdmina},
+		{path : "/korisnikPocetna/:korisnickoIme/pregledKorpe",name: 'pregled-korpe', component: PregledKorpe},
   
 
 		]

@@ -99,7 +99,6 @@ template:
           <ul class="porudzbine-list">
           
             <li v-for="porudzbina in filteredPorudzbine" :key="porudzbina.id">
-            
               <div class="porudzbina-container">
               
                 <p class="porudzbina-status">Status: {{ porudzbina.status }}</p>
@@ -128,6 +127,8 @@ template:
                       </div>
                     </div>
                   </div>
+                  
+            	<button v-if="porudzbina.status === 'Obrada'" @click="reduceBrojBodova(porudzbina)" class="reduce-bodova-button">Odustani</button>
                 </div>
               </div>
             </li>
@@ -482,12 +483,22 @@ template:
    },
    initializeData() {
     this.korisnikPorudzbine = [...this.porudzbine]; // Copy all orders initially
-    this.filteredPorudzbine = this.korisnikPorudzbine; // Display all orders initially
+    this.filteredPorudzbine = this.korisnikPorudzbinez; // Display all orders initially
   },
    showAllPorudzbine() {
     this.filteredPorudzbine = [...this.korisnikPorudzbine]; // Display all orders
     this.showAllPorudzbineButton = false; // Hide the button
-  }
+  },
+  reduceBrojBodova(porudzbina) {
+    if (porudzbina.status === "Obrada") {
+      if (this.korisnik.brojBodova > 0) {
+        this.korisnik.brojBodova--;
+        // Implement logic to update the user's points on the server if needed
+      } else {
+        alert("You don't have enough points to reduce.");
+      }
+    }
+  },
   },
 computed: {
    korisnikPorudzbine() {

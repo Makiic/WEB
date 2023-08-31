@@ -3,36 +3,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Korpa {
-    private List<Vozilo> vozila;
-    private Korisnik korisnik;
+	private String id;
+    private List<Integer> vozila;
+    private String korisnikId;
     private double cena;
 
-    public Korpa(Korisnik korisnik) {
-        this.vozila = new ArrayList<>();
-        this.korisnik = korisnik;
-        this.cena = 0.0;
+    public Korpa(Korpa korpa) {
+    	this.id = korpa.id;
+    	this.vozila = korpa.vozila;    	
+        this.korisnikId = korpa.korisnikId;
+        this.cena = korpa.cena;
     }
 
-  
+    public Korpa(List<Integer> vozila, String korisnikId, double cena) {
+    	this.vozila = vozila;
+		this.korisnikId = korisnikId;
+		this.cena = cena;
+	}
 
     // Getters and setters
 
-    public List<Vozilo> getVozila() {
-        return vozila;
-    }
+    
 
-    public void setVozila(List<Vozilo> vozila) {
-        this.vozila = vozila;
-        ;
-    }
+    public String getId() {
+		return id;
+	}
 
-    public Korisnik getKorisnik() {
-        return korisnik;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
-    }
+	public List<Integer> getVozila() {
+		return vozila;
+	}
+
+	public void setVozila(List<Integer> vozila) {
+		this.vozila = vozila;
+	}
+
+	public String getKorisnikId() {
+		return korisnikId;
+	}
+
+	public void setKorisnikId(String korisnikId) {
+		this.korisnikId = korisnikId;
+	}
+
 
     public double getCena() {
         return cena;

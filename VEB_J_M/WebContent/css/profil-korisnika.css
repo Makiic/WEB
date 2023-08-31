@@ -269,3 +269,13 @@ body, div, p, ul, li {
   margin-bottom: 10px;
   text-align: center; /* Center the button text */
 }
+.reduce-bodova-button {
+  font-size: 14px; /* Adjust the font size as needed */
+  background-color: #ff8000; /* Set the background color */
+  color: #ffffff; /* Set the text color */
+  border: none; /* Remove the button border */
+  padding: 5px 10px; /* Add padding around the button text */
+  cursor: pointer; /* Add a cursor pointer on hover */
+  width: 150px;
+  height: 40px;
+}

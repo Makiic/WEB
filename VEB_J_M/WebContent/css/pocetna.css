@@ -78,6 +78,44 @@
   margin-bottom: 20px;
 }
 
+.vozila-container {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.vozilo-container {
+  border: 1px solid lightgray;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 250px;
+  background-color: white;
+  border-radius: 10px;
+  width: 800px;
+}
+.vozila-container h3 {
+  color: #2e2e2e; /* Set the text color */
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold;
+  text-align: center;
+}
+.vozilo-details {
+  display: flex;
+  align-items: center;
+}
+
+.vozilo-left {
+  flex: 0 0 auto; /* Prevent image from growing */
+  margin-right: 10px; /* Adjust spacing between image and properties */
+}
+
+.vozilo-right {
+  flex: 1; /* Let properties container take remaining space */
+}
+.vozilo-left img {
+  width: 500px; /* Adjust the width as needed */
+  height: 350px; /* Adjust the height as needed */
+  border-radius: 10px;
+}
 .object:hover {
   box-shadow: 0 0 20px #2e2e2e;
 }
@@ -142,7 +180,7 @@
   align-items: center;
   background: #2e2e2e;
   width: 350px;
-  height: 480px;
+  height: 580px;
   border-radius: 10px;
   padding: 20px;
   margin-top: 23px;
