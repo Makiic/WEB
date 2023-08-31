@@ -7,6 +7,8 @@ const Administrator = {template: "<administrator></administrator>"}
 const PrikazObjekta = {template: "<prikaz-objekta></prikaz-objekta>"}
 const KorisnikPocetna = {template: "<korisnik-pocetna></korisnik-pocetna>"}
 const ProfilKorisnika = {template: "<profil-korisnika></profil-korisnika>"}
+const ProfilAdmina = {template: "<admin-pocetna></admin-pocetna>"}
+
 
 const router = new VueRouter({
 	mode: 'hash',  
@@ -20,7 +22,9 @@ const router = new VueRouter({
 		{path : '/rentACar/:id', name: 'rent-a-car-details', component: PrikazObjekta },
  		{path : "/korisnikPocetna/:korisnickoIme/profilKorisnika", component: ProfilKorisnika },
 		{path : "/korisnikPocetna/:korisnickoIme",name: 'logged-korisnik-pocetna', component: KorisnikPocetna},
+  		{path : "/adminPocetna/:korisnickoIme",name: 'logged-admin-pocetna', component: ProfilAdmina},
   
+
 		]
 	
 });
