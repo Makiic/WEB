@@ -1,5 +1,20 @@
 @import url('https://rsms.me/inter/inter-ui.css');
+.create-form {
+  text-align: right; /* Align form elements to the right */
+  margin-right: 20px; /* Add some margin for better spacing */
+}
 
+.create-form label {
+  display: inline-block;
+  width: 100px; /* Adjust the width based on your preference */
+}
+
+.create-form input[type="text"],
+.create-form input[type="time"],
+.create-form select,
+.create-form button {
+  width: 200px; /* Set the desired width for input elements */
+}
 ::selection {
   background: #2D2F36;
 }

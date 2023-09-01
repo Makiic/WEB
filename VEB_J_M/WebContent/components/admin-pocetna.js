@@ -1,7 +1,10 @@
+
 Vue.component("admin-pocetna",{
 	data: function() {
 		return {
 			isImageBlurred: false,
+			showAdministrator: false, // Add this flag
+			showCreate: false,
 			
 		};
 		
@@ -25,13 +28,17 @@ Vue.component("admin-pocetna",{
        <img id="headerImage" src="images/cover.JPG" alt="Image" style="width: 100%;">
    </center>
   </div>
+  <div class="page">
         <div class="sort-container " >		
-   		    <button class="login-button" style="margin-top: 60px; padding: 10px 20px;" @click="navigateTo('kreiraj-objekat')">Kreiraj novi objekat</button>
-   		    <button class="login-button" style="margin-top: 60px; padding: 10px 30px;" @click="navigateTo('pregled-korisnika')">Pregled korisnika</button>
+   		    <button class="login-button" style="margin-top: 60px; padding: 10px 20px;" @click="kreirajobjekat">Kreiraj novi objekat</button>
+   		      <button class="login-button"style="margin-top: 60px; padding: 10px 20px;"  @click="toggleAdministrator">Pregled korisnika</button>
     		<button class="login-button" style="margin-top: 60px; padding: 10px 30px;" @click="navigateTo('sumnjivi-korisnici')">Sumnjivi korisnici</button>
    			<button class="login-button" style="margin-top: 60px; padding: 10px 60px;" @click="navigateTo('komentari')">Komentari</button>
         </div>
-        <div class="grid-container">  </div>
+        <div class="grid-container"> 
+        <Administrator v-if="showAdministrator" /> 
+        <create-rac v-if="showCreate" />  </div>
+        </div>
 
 
   </div>
@@ -46,8 +53,11 @@ Vue.component("admin-pocetna",{
 		  console.log('korisnickoIme:', korisnickoIme); // Log the value to the console
 		  return `/korisnikPocetna/${korisnickoIme}/profilKorisnika`;
 			  },
-    navigateTo(routeName) {
-      // Implement this method to navigate to the specified route
+    toggleAdministrator() {
+      this.showAdministrator = !this.showAdministrator;
+    },
+     kreirajobjekat() {
+      this.showCreate = !this.showCreate;
     },
       handleScroll() {
       const headerImage = document.getElementById('headerImage');

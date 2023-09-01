@@ -84,7 +84,7 @@ public class KorisnikDAO {
 	    String line;
 	    while ((line = reader.readLine()) != null) {
 	        String[] parts = line.split(";");
-	        if (parts.length >= 8) {
+	        if (parts.length >= 10) {
 	            int id = Integer.parseInt(parts[0]);
 	            String korisnickoIme = parts[1];
 	            String lozinka = parts[2];
