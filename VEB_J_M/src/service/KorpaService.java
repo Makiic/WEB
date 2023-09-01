@@ -32,7 +32,7 @@ public class KorpaService {
 	
 	private void init() {
 	    if (ctx.getAttribute("korpaDAO") == null) {
-	        String realPath = "C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\korpe.txt"; // Absolute path
+	        String realPath = "C:\\Users\\marai\\OneDrive\\Desktop\\PROJEKAT WEB\\jokaimaraweb\\VEB_J_M\\WebContent\\korpe.txt"; // Absolute path
 	        ctx.setAttribute("korpaDAO", new KorpaDAO(realPath));
 	    }
 	}

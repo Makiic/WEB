@@ -63,7 +63,7 @@ Vue.component("edit", {
 
       const updatedUserData = response.data;
 
-      // Store the original user data
+      // Store the original dauser data
       this.originalKorisnikData = { ...this.korisnik };
 
       // Update the local component state to reflect the changes

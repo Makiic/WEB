@@ -12,14 +12,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import model.Korisnik;
 import model.Korisnik.TipKupca;
@@ -43,38 +37,9 @@ public class KorisnikDAO {
 	    BufferedReader in = null;
 	    try {
 	        realPath = contextPath;
-	        File file = new File("C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\korisnik.txt");
+	        File file = new File(this.realPath);
 	        in = new BufferedReader(new FileReader(file));
-	        String line;
-		    while ((line = in.readLine()) != null) {
-		        String[] parts = line.split(";");
-		        if (parts.length >= 8) {
-		            int id = Integer.parseInt(parts[0]);
-		            String korisnickoIme = parts[1];
-		            String lozinka = parts[2];
-		            String ime = parts[3];
-		            String prezime = parts[4];
-		            String pol = parts[5];
-		            String datumRodjenja = parts[6];
-		            Uloga uloga = Uloga.valueOf(parts[7]); // Convert the string to Uloga enum
-		            int brojBodova = 0;
-		            TipKupca tip = null;
-
-		            if (uloga.equals(Uloga.Kupac) && parts.length >= 9) {
-		                brojBodova = Integer.parseInt(parts[8]);
-		            }
-
-		            if (parts.length >= 10) {
-		                tip = TipKupca.valueOf(parts[9]); // Convert the string to TipKupca enum
-		            }
-
-		            Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol,
-		                datumRodjenja, uloga, brojBodova, tip);
-
-		            // Add the created Korisnik object to your data structure
-		            korisnici.put(korisnickoIme, korisnik);
-		        }
-		    }
+	        readUsers(in);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
@@ -97,15 +62,8 @@ public class KorisnikDAO {
 	}
 	//@return
 	//@param
-	public Korisnik pronadji(String korisnickoIme) {
-		loadUsers();
-	    if (korisnici.values().contains(korisnickoIme)) {
-	        System.out.println("User found in korisnici HashMap.");
-	        return korisnici.get(korisnickoIme);
-	    } else {
-	        System.out.println("User not found in korisnici HashMap.");
-	        return null;
-	    }
+	public Korisnik pronadji(String id) {
+		return korisnici.containsKey(id) ? korisnici.get(id) : null;
 	}
 	/**
 	 * Dodavanej studenta u kolekciju studenata
@@ -121,12 +79,12 @@ public class KorisnikDAO {
 	    }
 	    return korisnik;
 	}
-	
+	//@param
 	public void readUsers(BufferedReader reader) throws IOException {
 	    String line;
 	    while ((line = reader.readLine()) != null) {
 	        String[] parts = line.split(";");
-	        if (parts.length >= 10) {
+	        if (parts.length >= 8) {
 	            int id = Integer.parseInt(parts[0]);
 	            String korisnickoIme = parts[1];
 	            String lozinka = parts[2];
@@ -154,57 +112,6 @@ public class KorisnikDAO {
 	        }
 	    }
 	}
-
-
-	//@param
-	private void loadUsers() {
-		BufferedReader in = null;
-		try {
-			File file = new File("C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\korisnik.txt");
-			in = new BufferedReader(new FileReader(file));
-			String line;
-			StringTokenizer st;
-			while ((line = in.readLine()) != null) {
-		        String[] parts = line.split(";");
-		        if (parts.length >= 8) {
-		            String korisnickoIme = parts[0];
-		            String lozinka = parts[1];
-		            String ime = parts[2];
-		            String prezime = parts[3];
-		            String pol = parts[4];
-		            String datumRodjenja = parts[5];
-		            Uloga uloga = Uloga.valueOf(parts[6]); // Convert the string to Uloga enum
-		            int brojBodova = 0;
-		            TipKupca tip = null;
-
-		            if (uloga.equals(Uloga.Kupac) && parts.length >= 9) {
-		                brojBodova = Integer.parseInt(parts[8]);
-		            }
-
-		            if (parts.length >= 10) {
-		                tip = TipKupca.valueOf(parts[9]); // Convert the string to TipKupca enum
-		            }
-
-		            Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol,
-		                datumRodjenja, uloga, brojBodova, tip);
-		            System.out.println("Loaded Korisnik: " + korisnik);
-		            // Add the created Korisnik object to your data structure
-		            korisnici.put(korisnickoIme, korisnik);
-		        }
-				
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				}
-				catch (Exception e) { }
-			}
-		}
-	}
-
 
 	
 	public void writeUser(Korisnik korisnik) {

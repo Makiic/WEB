@@ -8,8 +8,13 @@ const PrikazObjekta = {template: "<prikaz-objekta></prikaz-objekta>"}
 const KorisnikPocetna = {template: "<korisnik-pocetna></korisnik-pocetna>"}
 const ProfilKorisnika = {template: "<profil-korisnika></profil-korisnika>"}
 const ProfilAdmina = {template: "<admin-pocetna></admin-pocetna>"}
-const Create = {template: "<create-rac></create-rac>"}
+const Create = {template: "<createRAC></createRAC>"}
 const PregledKorpe = {template: "<pregled-korpe></pregled-korpe>"}
+const Menadzer = {template: "<menadzer-pocetna></menadzer-pocetna>"}
+const ProfilMenadzera = {template: "<profil-menadzera></profil-menadzera>"}
+
+const PrikazObjektaM = {template: "<prikaz-objekta-m></prikaz-objekta-m>"}
+const Komentari = {template: "<komentari></komentari>"}
 
 
 const router = new VueRouter({
@@ -19,16 +24,21 @@ const router = new VueRouter({
 		{path : "/homepage/:korisnickoIme", component: HomePage},
 		{path : "/registracija", component: Registracija},
 		{path : "/edit/:korisnickoIme", component: Edit},
-		{path : "/rentACar", component: RentACar},
+		{path : "/", component: RentACar},
 		{path : "/Administrator", component: Administrator},
-		{path : '/rentACar/:id', name: 'rent-a-car-details', component: PrikazObjekta },
  		{path : "/korisnikPocetna/:korisnickoIme/profilKorisnika", component: ProfilKorisnika },
 		{path : "/korisnikPocetna/:korisnickoIme",name: 'logged-korisnik-pocetna', component: KorisnikPocetna},
 		{path : "/adminPocetna/:korisnickoIme",name: 'logged-admin-pocetna', component: ProfilAdmina},
-		{path : "/create-rac",name: 'logged-admin-pocetna', component: Create},
+		{path : "/menadzerPocetna/:korisnickoIme",name: 'menadzer', component: Menadzer},
+		{path : "/menadzerPocetna/:korisnickoIme/profilMenadzera",name: 'profil-menadzera', component: ProfilMenadzera},
+		{path : "/createRAC", component: Create},
 		{path : '/login/:korisnickoIme/:id', name: 'rent-a-car-details', component: PrikazObjekta },
 		{path : "/korisnikPocetna/:korisnickoIme/pregledKorpe",name: 'pregled-korpe', component: PregledKorpe},
   
+  		
+		{path : '/menadzerPocetna/:korisnickoIme/:id', name: 'rent-a-car-details-menadzer', component: PrikazObjektaM },
+       
+        {path : "/komentari",  component: Komentari },
 		]
 	
 });

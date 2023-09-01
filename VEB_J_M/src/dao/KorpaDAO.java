@@ -18,7 +18,7 @@ public class KorpaDAO {
 	public KorpaDAO() {}
 	
 	public KorpaDAO(String contextPath) {
-		loadKorpe("C:\\\\Users\\\\Jovana\\\\Desktop\\\\WebProject\\\\jokaimaraweb\\\\VEB_J_M\\\\WebContent\\\\korpe.txt");
+		loadKorpe("C:\\Users\\marai\\OneDrive\\Desktop\\PROJEKAT WEB\\jokaimaraweb\\VEB_J_M\\WebContent\\korpe.txt");
 	}
 	
 	public Collection<Korpa> findAll() {

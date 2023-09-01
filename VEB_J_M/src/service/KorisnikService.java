@@ -40,19 +40,12 @@ public class KorisnikService{
 	 */
 	private void init() {
 	    if (ctx.getAttribute("korisnikDAO") == null) {
-	        String realPath = "C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\korisnik.txt"; // Absolute path
+	        String realPath = "C:\\Users\\marai\\OneDrive\\Desktop\\PROJEKAT WEB\\jokaimaraweb\\VEB_J_M\\WebContent\\korisnik.txt"; // Absolute path
 	        ctx.setAttribute("korisnikDAO", new KorisnikDAO(realPath));
 	    }
 	}
 
-	@GET
-	@Path("/getAll")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Korisnik> getProducts() {
-		KorisnikDAO dao = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
-		return dao.getALL();
-	}
-	
+
 	@POST
 	@Path("/registracija")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -61,7 +54,7 @@ public class KorisnikService{
 	    init();
 	    KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 	    
-	    // Set default values for role and points if they are not provided
+	    
 	    if (korisnik.getUloga() == null) {
 	        korisnik.setUloga(Uloga.Kupac); 
 	    }
@@ -78,6 +71,7 @@ public class KorisnikService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Collection<Korisnik> getRegistersUsers(){
 		
+		System.out.println("USLO da prostis");
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 		return korisnikDAO.getALL();
 	}
@@ -86,24 +80,15 @@ public class KorisnikService{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik getUser(@PathParam("korisnickoIme") String korisnickoIme) {
-		System.out.println("getUser called with korisnickoIme: " + korisnickoIme);
-		init();
 	    KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
-	    Korisnik foundKorisnik = korisnikDAO.pronadji(korisnickoIme);
-
-	    if (foundKorisnik == null) {
-	        System.out.println("User not found.");
-	    } else {
-	        System.out.println("User found: " + foundKorisnik.toString());
-	    }
-
-	    return foundKorisnik;
+	    return korisnikDAO.pronadji(korisnickoIme);
 	}
 	@PUT
 	@Path("/edit/{korisnickoIme}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik updateUser(@PathParam("korisnickoIme") String korisnickoIme, Korisnik updatedKorisnik) {
+		System.out.println("USLO da prostis");
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 	    
 	    Korisnik updatedUser = korisnikDAO.update(updatedKorisnik); 

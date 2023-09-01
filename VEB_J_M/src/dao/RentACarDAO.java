@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import model.RentACarObjekat;
 import model.Lokacija;
@@ -53,54 +54,62 @@ public class RentACarDAO {
 
     public RentACarObjekat sacuvaj(RentACarObjekat rentACar) {
         if (!rentACars.containsKey(rentACar.getId())) {
+        	System.out.println("\n\n\t DODAJEM KORISNIKA\n\n");
             rentACars.put(rentACar.getId(), rentACar);
             listaRentACars.add(rentACar);
             writeRentACar(rentACar);
         }
         return rentACar;
     }
+  
     public void writeRentACar(RentACarObjekat rentACar) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.realPath, true))) {
-            StringBuilder line = new StringBuilder();
+        Objects.requireNonNull(rentACar, "Rent-a-Car object must not be null.");
 
-            // Append rent-a-car data to the line
-            line
-                .append(rentACar.getId()).append(";")
-                .append(rentACar.getNaziv()).append(";")
-                .append(rentACar.getStartVreme()).append(";")
-                .append(rentACar.getEndTime()).append(";")
-                .append(rentACar.isStatus()).append(";")
-                .append(rentACar.getOcena()).append(";")
-                .append(rentACar.getSlika()).append(";")
-                .append(rentACar.getLokacija().getId()); // Append the Lokacija's id
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.realPath, true))) {
+            // Construct the line to be written to the file
+            StringBuilder line = new StringBuilder();
+            line.append(rentACar.getNaziv()).append(";"); // Naziv
+            line.append(rentACar.getStartVreme()).append(";"); // StartVreme
+            line.append(rentACar.getEndTime()).append(";"); // EndVreme
+            line.append(rentACar.isStatus()).append(";"); // Status
+            line.append(rentACar.getLokacija().getGrad()).append(";"); // Lokacija
+
+            // Assuming you have a logo property of type String in your RentACarObjekat
+            line.append(rentACar.getSlika()).append(";"); // Logo
 
             // Write the line to the file
             writer.write(line.toString());
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
+            // Handle the exception appropriately
         }
     }
-
 
     public void readRentACars(BufferedReader reader) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(";");
-            if (parts.length >= 8) {
+            if (parts.length >= 7) {
                 int id = Integer.parseInt(parts[0]);
                 String naziv = parts[1];
                 LocalTime startVreme = LocalTime.parse(parts[2]);
                 LocalTime endVreme = LocalTime.parse(parts[3]);
                 boolean status = Boolean.parseBoolean(parts[4]);
                 int ocena = Integer.parseInt(parts[5]);
-                
-                // Extract other attributes
-                String logo = parts[6];
-                // ... extract other attributes
-                
+                String slika = parts[6];
+                int lokacijaId = parts.length > 7 ? Integer.parseInt(parts[7]) : -1; // Parse lokacijaId or use -1 if not present
+
                 // Create the RentACarObjekat instance
-                RentACarObjekat rentACar = new RentACarObjekat(id, naziv, startVreme, endVreme, status, null, logo, ocena);
+                RentACarObjekat rentACar = new RentACarObjekat(id, naziv, startVreme, endVreme, status, null, slika, ocena);
+
+                // Set the Lokacija if the id is valid
+                if (lokacijaId != -1) {
+                    Lokacija lokacija = findLokacijaById(lokacijaId); // Implement this method
+                    if (lokacija != null) {
+                        rentACar.setLokacija(lokacija);
+                    }
+                }
 
                 // Add the created RentACarObjekat object to your data structure
                 rentACars.put(id, rentACar);
@@ -108,30 +117,18 @@ public class RentACarDAO {
         }
     }
 
-    public void readLokacije(BufferedReader reader) throws IOException {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(";");
-            if (parts.length >= 7) {
-                int id = Integer.parseInt(parts[0]);
-                String geoDuzina = parts[1];
-                String geoSirina = parts[2];
-                String ulica = parts[3];
-                String broj = parts[4];
-                String grad = parts[5];
-                String posBroj = parts[6];
-                
-                // Create the Lokacija instance
-                Lokacija lokacija = new Lokacija(id, geoDuzina, geoSirina, ulica, broj, grad, posBroj);
-                
-                // Update the corresponding RentACarObjekat with the Lokacija
-                RentACarObjekat rentACar = rentACars.get(id);
-                if (rentACar != null) {
-                    rentACar.setLokacija(lokacija);
-                }
+    // Implement a method to find Lokacija by ID
+    private Lokacija findLokacijaById(int id) {
+        // Loop through the list of rentACars to find the associated Lokacija
+        for (RentACarObjekat rentACar : listaRentACars) {
+            Lokacija lokacija = rentACar.getLokacija();
+            if (lokacija != null && lokacija.getId() == id) {
+                return lokacija; // Return the found Lokacija
             }
         }
+        return null; // Return null if no matching Lokacija is found
     }
+
 
 
 

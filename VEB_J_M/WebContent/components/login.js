@@ -35,57 +35,74 @@ Vue.component("login", {
 </body>
 
   `,
-  methods: {
-    TryLogin() {
-      let valid = true;
-      this.errorMessages = {};
+ methods: {
+  TryLogin() {
+    let valid = true;
+    this.errorMessages = {};
 
-      if (!this.korisnik.korisnickoIme) {
-        valid = false;
-        this.errorMessages.korisnickoIme = "Please enter a username.";
-      }
+    if (!this.korisnik.korisnickoIme) {
+      valid = false;
+      this.errorMessages.korisnickoIme = "Please enter a username.";
+    }
 
-      if (!this.korisnik.lozinka) {
-        valid = false;
-        this.errorMessages.lozinka = "Please enter a password.";
-      }
+    if (!this.korisnik.lozinka) {
+      valid = false;
+      this.errorMessages.lozinka = "Please enter a password.";
+    }
 
-     if (valid) {
-  // Read the registered users' data from the file
-  fetch('korisnik.txt')
-    .then(response => response.text())
-    .then(data => {
-      const lines = data.split('\n');
-      const registeredUsernames = [];
-      const registeredUloga = [];
+    console.log("Valid:", valid); // Dodajte ovu liniju za proveru
 
-      lines.forEach(line => {
-        const parts = line.split(';');
-        if (parts.length >= 8) {
-          registeredUsernames.push(parts[0].trim());
-          registeredUloga.push(parts[6].trim());
-        }
-      });
+    if (valid) {
+      // Read the registered users' data from the file
+      fetch('korisnik.txt')
+        .then(response => response.text())
+        .then(data => {
+          const lines = data.split('\n');
+          const registeredUsernames = [];
+          const registeredUloga = [];
 
-      if (registeredUsernames.includes(this.korisnik.korisnickoIme)) {
-        const userIndex = registeredUsernames.indexOf(this.korisnik.korisnickoIme);
-        const userRole = registeredUloga[userIndex];
-        
-        if (userRole === 'Administrator') {
-          this.$router.push({ name: 'logged-admin-pocetna', params: { korisnickoIme: this.korisnik.korisnickoIme } });
-        } else if (userRole === 'Kupac') {
-          this.$router.push({ name: 'logged-korisnik-pocetna', params: { korisnickoIme: this.korisnik.korisnickoIme } });
-        }
-      } else {
-        this.errorMessages.korisnickoIme = "Invalid username.";
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+          lines.forEach(line => {
+            const parts = line.split(';');
+            if (parts.length >= 8) {
+              registeredUsernames.push(parts[0].trim());
+              registeredUloga.push(parts[6].trim());
+            }
+          });
+
+          console.log("Registered Usernames:", registeredUsernames); // Dodajte ovu liniju za proveru
+          console.log("Registered Uloga:", registeredUloga); // Dodajte ovu liniju za proveru
+
+          if (registeredUsernames.includes(this.korisnik.korisnickoIme)) {
+            const userIndex = registeredUsernames.indexOf(this.korisnik.korisnickoIme);
+            const userRole = registeredUloga[userIndex];
+            
+            console.log("User Role:", userRole); // Dodajte ovu liniju za proveru
+
+            // U komponenti login
+            if (userRole === 'Administrator') {
+              this.$router.push({ name: 'logged-admin-pocetna', params: { korisnickoIme: this.korisnik.korisnickoIme } });
+             } else if (userRole === 'Menadzer') {
+              this.$router.push({ name: 'menadzer', params: { korisnickoIme: this.korisnik.korisnickoIme } });
+
+            } 
+            else if (userRole === 'Kupac') {
+              this.$router.push({ name: 'logged-korisnik-pocetna', params: { korisnickoIme: this.korisnik.korisnickoIme } });
+            }
+            }
+            
+           else {
+            this.errorMessages.korisnickoIme = "Invalid username.";
+          }
+          
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 }
 
 
-    }
-  },
+
+
 });

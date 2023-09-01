@@ -57,6 +57,7 @@
   margin-top: 10px;
   background-color: white;
   border-radius: 10px;
+  width:800px;
 }
 .vozila-container h3 {
   color: #2e2e2e; /* Set the text color */
@@ -118,4 +119,32 @@
   width: 500px; /* Adjust the width as needed */
   height: 350px; /* Adjust the height as needed */
   border-radius: 10px;
+}
+.vozila-form-container {
+  border: 1px solid lightgray;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+  width: 400px; /* Adjust the width as needed */
+  margin-right: 20px; /* Add margin to create space between form and vozila */
+}
+
+/* Adjust the margin of vozila-container to create space between form and vozila */
+.vozila-container {
+  margin-top: 20px; /* Adjust as needed */
+}
+.column-1 {
+  /* Adjust the width or margin to create more space on the left */
+  width: 30%; /* Adjust this value as needed */
+  margin-right: 20px; /* Add margin to create space between columns */
+}
+
+/* Adjust the margin of vozila-form-container to create space between form and vozila */
+.vozila-form-container {
+  margin-top: 20px; /* Adjust as needed */
+}
+.vozila-form-container input {
+  background: #ccc;
+  width:400px;
 }

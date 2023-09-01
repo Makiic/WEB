@@ -1,91 +1,87 @@
-Vue.component("create-rac",{
-	
-	data:function(){
-		 return {
-      name: "",
-      location: "",
-      startTime: "",
-      endTime: "",
-      logoFile: null,
-      selectedManager: null,
-      availableManagers: [], 
-        showConfirmation: false, // Add this property// List of managers not assigned to any object
+Vue.component("createRAC", {
+  data: function () {
+    return {
+      rentACar: {
+        naziv: "",
+        startVreme: "",
+        endVreme: "",
+        status: false,
+        lokacija: "",
+        logo: null,
+      },
+      showConfirmation: false,
     };
-	},
-	
-	
-	template: 
-	`
-<div class="reg-container">
-    <form class="reg-form" @submit.prevent="createRentACar">
-      <div class="wrapper">
-        <div class="form_container">
-          <div class="title_container">
-            <h2>Create New Rent-A-Car</h2>
-          </div>
-          <div class="row clearfix">
-            <div class="">
-              <form>
-                <div class="input-box">
-                  <span><i aria-hidden="true" class="fa fa-building"></i></span>
-                  <input type="text" name="name" placeholder="Name" required v-model="name" />
-                </div>
-                <div class="input-box">
-                  <span><i aria-hidden="true" class="fa fa-map-marker"></i></span>
-                  <input type="text" name="location" placeholder="Location" required v-model="location" />
-                </div>
-                <div class="row clearfix">
-                  <div class="col_half">
-                    <div class="input-box">
-                      <span><i aria-hidden="true" class="fa fa-clock"></i></span>
-                      <input type="time" name="startTime" placeholder="Start Time" required v-model="startTime" />
-                    </div>
-                  </div>
-                  <div class="col_half">
-                    <div class="input-box">
-                      <span><i aria-hidden="true" class="fa fa-clock"></i></span>
-                      <input type="time" name="endTime" placeholder="End Time" required v-model="endTime" />
-                    </div>
-                  </div>
-                </div>
-                <div class="input-box">
-                  <span><i aria-hidden="true" class="fa fa-image"></i></span>
-                  <input type="file" accept="image/*" @change="uploadLogo" required />
-                </div>
-              
-                 <button class="reg_button" type="submit">Create</button>
-      <p v-if="showConfirmation" class="confirmation-message">Rent-A-Car created successfully!</p>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>`,
-	methods:
-	{
-		TryCreate: function () {
-      console.log('TryRegister method called.');
-      let valid = true;
-      this.errorMessages = {};
+  },
+  methods: {
+    kreirajRentACar: function () {
+      console.log("kreirajRentACar method called.");
 
-        axios
-        .post('rest/rentACar/createRAC', this.rentACar)
-        .then(response => {
-          // Handle the response from the server
-          this.showConfirmation = true; // Show the confirmation message
+      const formData = new FormData();
+      for (const key in this.rentACar) {
+        formData.append(key, this.rentACar[key]);
+      }
+
+      if (this.rentACar.logo) {
+        formData.append("logo", this.rentACar.logo);
+      }
+
+      axios
+        .post("rest/rentACar/createRAC", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
-        .catch(error => {
+        .then((response) => {
+          this.showConfirmation = true;
+        })
+        .catch((error) => {
           console.error(error);
-          // Handle any errors that occur during the request
         });
     },
-	uploadLogo(event) {
-      // Handle the file upload here
+    uploadLogo(event) {
       const file = event.target.files[0];
-      // Do something with the uploaded file
+      this.rentACar.logo = file;
     },
-	}
-	,
-	
-})
+  },
+  template: `
+    <div>
+      <form @submit.prevent="kreirajRentACar" class="rac-form">
+        <div class="form-group">
+          <label for="naziv">Naziv:</label>
+          <input type="text" id="naziv" v-model="rentACar.naziv" required>
+        </div>
+
+        <div class="form-group">
+          <label for="startVreme">Radno vreme od:</label>
+          <input type="time" id="startVreme" v-model="rentACar.startVreme" required>
+        </div>
+
+        <div class="form-group">
+          <label for="endVreme">Radno vreme do:</label>
+          <input type="time" id="endVreme" v-model="rentACar.endVreme" required>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <input type="checkbox" id="status" v-model="rentACar.status">
+        </div>
+
+        <div class="form-group">
+          <label for="lokacija">Lokacija:</label>
+          <input type="text" id="lokacija" v-model="rentACar.lokacija" required>
+        </div>
+
+        <div class="form-group">
+          <label for="logo">Logo:</label>
+          <input type="file" id="logo" @change="uploadLogo" accept="image/*">
+        </div>
+
+        <button type="submit">Kreiraj Rent-a-Car</button>
+      </form>
+
+      <div v-if="showConfirmation" class="confirmation-message">
+        Rent-a-Car je uspešno kreiran!
+      </div>
+    </div>
+  `,
+});

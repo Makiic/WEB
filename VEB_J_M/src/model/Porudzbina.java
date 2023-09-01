@@ -12,6 +12,9 @@ public class Porudzbina {
     private int trajanjeNajma;
     private double cena;
     private String imePrezimeKupca;
+    private String Menadzer;
+    private String razlogOdbijanja;
+
 
     private StatusPorudzbine status;
     public enum StatusPorudzbine
@@ -37,6 +40,23 @@ public class Porudzbina {
     }
 
     // Getters and setters
+    
+    public String getRazlogOdbijanja() {
+        return razlogOdbijanja;
+    }
+
+    public String getMenadzer() {
+		return Menadzer;
+	}
+
+	public void setMenadzer(String menadzer) {
+		Menadzer = menadzer;
+	}
+
+	public void setRazlogOdbijanja(String razlogOdbijanja) {
+        this.razlogOdbijanja = razlogOdbijanja;
+    }
+
 
     public String getId() {
         return id;

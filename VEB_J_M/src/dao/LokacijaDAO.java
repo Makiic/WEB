@@ -18,7 +18,7 @@ import model.Lokacija;
 import model.Korisnik;
 
 public class LokacijaDAO {
-	
+	private Collection<Lokacija> lokacijes;
 	private HashMap<Integer, Lokacija> lokacije = new HashMap<Integer, Lokacija>();
 	private ArrayList<Lokacija> locationList = new ArrayList<Lokacija>();
 	private String realPath;
@@ -128,5 +128,14 @@ public class LokacijaDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public Lokacija findLocationByName(String name) {
+        for (Lokacija lokacija : lokacijes) {
+            if (lokacija.getGrad().equalsIgnoreCase(name)) {
+                return lokacija; // Pronađena odgovarajuća lokacija
+            }
+        }
+        return null; // Lokacija nije pronađena
     }
 }

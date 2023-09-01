@@ -6,6 +6,7 @@ Vue.component("admin-pocetna",{
 
 			showAdministrator: false, // Add this flag
 			showCreate: false,
+			showcoments:false,
 
 			
 		};
@@ -30,17 +31,19 @@ Vue.component("admin-pocetna",{
        <img id="headerImage" src="images/cover.JPG" alt="Image" style="width: 100%;">
    </center>
   </div>
-<<<<<<< HEAD
+
   <div class="page">
         <div class="sort-container " >		
    		    <button class="login-button" style="margin-top: 60px; padding: 10px 20px;" @click="kreirajobjekat">Kreiraj novi objekat</button>
    		      <button class="login-button"style="margin-top: 60px; padding: 10px 20px;"  @click="toggleAdministrator">Pregled korisnika</button>
     		<button class="login-button" style="margin-top: 60px; padding: 10px 30px;" @click="navigateTo('sumnjivi-korisnici')">Sumnjivi korisnici</button>
-   			<button class="login-button" style="margin-top: 60px; padding: 10px 60px;" @click="navigateTo('komentari')">Komentari</button>
+   			<button class="login-button" style="margin-top: 60px; padding: 10px 60px;" @click="komentari">Komentari</button>
         </div>
         <div class="grid-container"> 
         <Administrator v-if="showAdministrator" /> 
-        <create-rac v-if="showCreate" />  </div>
+        <createRAC v-if="showCreate" />
+         <komentari v-if="showcoments"/>
+          </div>
         </div>
         
 
@@ -67,6 +70,9 @@ Vue.component("admin-pocetna",{
      kreirajobjekat() {
       this.showCreate = !this.showCreate;
       },
+      komentari(){
+		this.showcoments = !this.showcoments;  
+	  },
 
     navigateTo(routeName) {
       // Implement this method to navigate to the specified route

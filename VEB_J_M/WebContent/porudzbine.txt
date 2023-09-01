@@ -1,4 +1,4 @@
-ABC123;1;1;2023-08-12;7;150.0;John Doe;Obrada
+ABC123;1;1;2023-08-12;7;150.0;John Doe;Obrada;mara
 DEF456;2;2;2023-08-11;5;200.0;Jane Smith;Odobreno
 GHI789;4,6;3;2023-08-10;3;120.0;Mike Johnson;Preuzeto
 JKL012;3;4;2023-08-10;2;80.0;Emily Brown;Vraceno

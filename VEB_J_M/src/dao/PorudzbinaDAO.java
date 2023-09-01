@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class PorudzbinaDAO {
 	public PorudzbinaDAO(String contextPath) {
 	    BufferedReader in = null;
 	    try {
-	        File file = new File("C:\\Users\\Jovana\\Desktop\\WebProject\\jokaimaraweb\\VEB_J_M\\WebContent\\porudzbine.txt");
+	        File file = new File("C:\\Users\\marai\\OneDrive\\Desktop\\PROJEKAT WEB\\jokaimaraweb\\VEB_J_M\\WebContent\\porudzbine.txt");
 	        in = new BufferedReader(new FileReader(file));
 	        String line;
 		    while ((line = in.readLine()) != null) {
@@ -100,4 +101,40 @@ public class PorudzbinaDAO {
 	        e.printStackTrace();
 	    }
 	}
+	public Porudzbina getPorudzbinaById(String id) {
+	    Collection<Porudzbina> porudzbine = ucitajPorudzbineIzFajla(); // Implementirajte metodu za učitavanje porudžbina iz fajla
+	    
+	    for (Porudzbina porudzbina : porudzbine) {
+	        if (porudzbina.getId().equals(id)) {
+	            return porudzbina; // Pronašli smo odgovarajuću porudžbinu
+	        }
+	    }
+	    
+	    return null; // Porudžbina sa datim ID-om nije pronađena
+	}
+
+
+	public Collection<Porudzbina> ucitajPorudzbineIzFajla() {
+		return porudzbine.values();
+	}
+	public boolean promeniStatusPorudzbine(String id, StatusPorudzbine newStatus) {
+	    Porudzbina porudzbina = porudzbine.get(id);
+	    if (porudzbina != null) {
+	        porudzbina.setStatus(newStatus);
+	        sacuvaj(porudzbina); // Dodajte ovu liniju da biste sačuvali promene u fajlu
+	        return true;
+	    }
+	    return false;
+	}
+	public Porudzbina getPorudzbina(String id) {
+	    // Iterirajte kroz listu porudžbina i pronađite porudžbinu sa odgovarajućim ID-jem
+	    for (Porudzbina porudzbina : listaPorudzbina) {
+	        if (porudzbina.getId().equals(id)) {
+	            return porudzbina;
+	        }
+	    }
+	    return null; // Ako porudžbina sa datim ID-jem nije pronađena, vratite null
+	}
+
+
 }

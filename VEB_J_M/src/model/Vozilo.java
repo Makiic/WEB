@@ -6,7 +6,7 @@ public class Vozilo {
 	    private String model;
 	    private int cena;
 	    private TipVozila tip;
-	    private RentACarObjekat objekatPripada;
+	    private String objekatPripada;
 	    private VrstaMenjaca vrstaMenjaca;
 	    private TipGoriva tipGoriva;
 	    private double potrosnja;
@@ -42,7 +42,7 @@ public class Vozilo {
 		public void setIdVozila(String idVozila) {
 			IdVozila = idVozila;
 		}
-		public Vozilo(String idVozila, String marka, String model, int cena, TipVozila tip, RentACarObjekat objekatPripada,
+		public Vozilo(String idVozila, String marka, String model, int cena, TipVozila tip, String objekatPripada,
 	              VrstaMenjaca vrstaMenjaca, TipGoriva tipGoriva, double potrosnja, int brojVrata,
 	              int brojOsoba, String opis, String slika, Status status) {
 	    this.IdVozila = idVozila;
@@ -94,11 +94,11 @@ public class Vozilo {
 	        this.tip = tip;
 	    }
 	    
-	    public RentACarObjekat getObjekatPripada() {
+	    public String getObjekatPripada() {
 	        return objekatPripada;
 	    }
 	    
-	    public void setObjekatPripada(RentACarObjekat objekatPripada) {
+	    public void setObjekatPripada(String objekatPripada) {
 	        this.objekatPripada = objekatPripada;
 	    }
 	    
@@ -165,6 +165,5 @@ public class Vozilo {
 	    public void setStatus(Status status) {
 	        this.status = status;
 	    }
-	
 
 }
