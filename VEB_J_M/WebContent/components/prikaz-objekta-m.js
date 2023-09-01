@@ -1,6 +1,7 @@
 Vue.component("prikaz-objekta-m", {
   data() {
     return {
+      korisnickoIme: this.$route.params.korisnickoIme,
       selectedObject: null,
       lokacije: null,
       rentACarObjects: {},
@@ -51,13 +52,15 @@ Vue.component("prikaz-objekta-m", {
   <div>
   <div class="login-bar">
     <link rel="stylesheet" href="css/prikaz-objekta.css">
-	  <router-link to="/login" class="login-button">Prijavi se</router-link>
+	  <div class="login-bar-profil">
+      <router-link :to="getPocetnaLink()" class="pocetna-button">Pocetna stranica</router-link>
+      <router-link :to="getProfileLink()" class="login-button">Moj profil</router-link>
+    </div>
 	</div>
     <img src="images/cover.JPG" alt="Image" style="width: 100%;">
 	<div class="content">	
 	  <div class="column-1">
-	    <div class="column-1-content">
-	    </div>
+	    
 	  </div>
 	  <div class="column-2">
 	    <div class="object-details">
@@ -80,12 +83,14 @@ Vue.component("prikaz-objekta-m", {
 			          <img :src="'images/' + vozilo.slika" :alt="'slika ' + vozilo.marka" width="70" height="70">
 			        </div>
 			        <div class="vozilo-right">
+			          <p>Marka: {{ vozilo.IdVozila }}</p>
 			          <p>Marka: {{ vozilo.marka }}</p>
 			          <p>Model: {{ vozilo.model }}</p>
 			          <p>Tip goriva: {{ vozilo.tipGoriva }}</p>
 			          <p>Vrsta menjaca: {{ vozilo.vrstaMenjaca }}</p>
 			        </div>
 			        <button @click="editVozilo(vozilo.IdVozila)">Izmeni</button>
+    <button @click="deleteVozilo(vozilo)">Obriši</button>
 			      </div>
 	          </div>
 	        </div>
@@ -120,10 +125,6 @@ Vue.component("prikaz-objekta-m", {
         <div class="form-group">
           <label for="tip">Tip:</label>
           <input type="text" id="tip" v-model="newVozilo.tip" required>
-        </div>
-        <div class="form-group">
-          <label for="objekatPripada">Objekat Pripada:</label>
-          <input type="text" id="objekatPripada" v-model="newVozilo.objekatPripada" required>
         </div>
         <div class="form-group">
           <label for="vrstaMenjaca">Vrsta menjaca:</label>
@@ -164,15 +165,48 @@ Vue.component("prikaz-objekta-m", {
 
   `,
 methods: {
+		getProfileLink() {
+	    const korisnickoIme = this.$data.korisnickoIme;
+		  console.log('korisnickoIme:', korisnickoIme); // Log the value to the console
+		  return `/menadzerPocetna/${korisnickoIme}/profilMenadzera`;
+			  },
+	  getPocetnaLink() {
+	    const korisnickoIme = this.$data.korisnickoIme;
+	    return `/menadzerPocetna/${korisnickoIme}`;
+	  },
 	filteredVozila() {
-    if (this.selectedObject) {
-      const selectedObjekatId = this.selectedObject.id;
-      return Object.values(this.vozila).filter(vozilo => vozilo.objekatPripada === selectedObjekatId);
+     if (this.selectedObject) {
+    const selectedObjekatId = this.selectedObject.id;
+    return Object.values(this.vozila).filter(vozilo => vozilo.objekatPripada === selectedObjekatId);
+  }
+  return [];
+  },
+  deleteVozilo(voziloId) {
+    if (confirm('Are you sure you want to delete this Vozilo?')) {
+      // Find the index of the Vozilo with the given Id in the selectedObject's Vozila array
+      const indexToDelete = this.selectedObject.vozilaUPonudi.indexOf(voziloId);
+		console.log(indexToDelete);
+      if (indexToDelete !== -1) {
+        // Remove the Vozilo from the selectedObject's Vozila array
+        this.selectedObject.vozilaUPonudi.splice(indexToDelete, 1);
+
+        // You can also send a request to delete the Vozilo on the server
+        axios.delete(`rest/vozila/delete/`+ indexToDelete)
+          .then(response => {
+            // Handle the successful deletion on the server
+            console.log(`Vozilo with ID ${voziloId} has been deleted.`);
+          })
+          .catch(error => {
+            console.error(`Error deleting Vozilo with ID ${voziloId}:`, error);
+          });
+      } else {
+        console.warn(`Vozilo with ID ${voziloId} not found in selectedObject.`);
+      }
     }
-    return [];
   },
 	addNewVozilo() {;
-		console.log("VOZILO", this.newVozilo);
+	this.newVozilo.objekatPripada = this.selectedObject.id;
+		console.log("VOZILO", this.newVozilo.objekatPripada);
 		axios.post('rest/vozila/create', this.newVozilo)
 		  .then(response => {
 		    // Handle the response from the server
@@ -289,6 +323,7 @@ methods: {
       }, {});
       this.vozila = vozila;
       console.log(this.vozila);
+      
       this.fetchObjectDetails();
     })
     .catch(error => {

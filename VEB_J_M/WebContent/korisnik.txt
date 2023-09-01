@@ -1,4 +1,4 @@
-mara;mara;ssmmm;ss;zenski;2023-08-29;Menadzer;ABC123,MNO345;1;1;0;Zlatni;
+mara;mara;ssmmm;ss;zenski;2023-08-29;Kupac;ABC123,MNO345;1;1;0;Zlatni;
 aa;a;a;as;muski;2023-09-01;Kupac;1,2;2;0;0;Zlatni;
 ddds;dd;ddddf;dddd;muski;2023-08-01;Kupac;1,2;3;0;0;Zlatni;
 ccc;ccc;cc;cc;zenski;2023-09-01;Kupac;1,2;4;0;5;Zlatni;

@@ -11,7 +11,8 @@ Vue.component("profil-korisnika", {
 	      filteredPorudzbine: [],
 	      selectedPriceRange: {
 	        min: null,
-	        max: null
+	        max: null,
+	        newComment: "",
 	      },
 	      filterButtonClicked: false,
 	      selectedStartDate: null,
@@ -129,6 +130,11 @@ template:
                   </div>
                   
             	<button v-if="porudzbina.status === 'Obrada'" @click="reduceBrojBodova(porudzbina)" class="reduce-bodova-button">Odustani</button>
+               
+                               <div v-if="porudzbina.status === 'Vraceno'">
+    <input type="text" v-model="newComment" placeholder="Unesite komentar">
+    <button @click="addComment(porudzbina)">Dodaj komentar</button>
+  </div>
                 </div>
               </div>
             </li>
@@ -151,6 +157,9 @@ template:
       const korisnickoIme = this.$route.params.korisnickoIme;
       return `/korisnikPocetna/${korisnickoIme}`;
     },
+    getVoziloById(id) {
+    return this.vozila[id];
+  },
 	loadKorisnici() {
       axios
         .get("korisnik.txt")
@@ -215,6 +224,7 @@ template:
         .catch((error) => {
           console.error("Error fetching korisnici data:", error);
         });
+        
     },
 	loadPorudzbine() {
 	  axios
@@ -265,40 +275,41 @@ template:
 	},
 
 	loadVozila() {
-	  axios
-      .get('vozila.txt')
-      .then(response => {
-        const data = response.data.split("\n");
-        const vozila = data.reduce((acc, line) => {
-          const [IdVozila, marka, model, cena, tip, objekatPripada, vrstaMenjaca, tipGoriva, potrosnja, brojVrata, brojOsoba, opis, slika, status] = line.split(";");
-          acc[IdVozila.trim()] = { 
-            marka: marka.trim(), 
-            model: model.trim(),
-            cena: cena.trim(),
-            tip: tip.trim(),
-            objekatPripada: objekatPripada.trim(),
-            vrstaMenjaca: vrstaMenjaca.trim(),
-            tipGoriva: tipGoriva.trim(),
-            potrosnja: potrosnja.trim(),
-            brojVrata: brojVrata.trim(),
-            brojOsoba: brojOsoba.trim(),
-            opis: opis.trim(),
-            slika: slika.trim(),
-            status: status.trim()
-          };
-          return acc;
-        }, {});
-        this.vozila = vozila;
-        
+  axios
+    .get('vozila.txt')
+    .then(response => {
+      const data = response.data.split("\n");
+
+      // Filter out empty lines at the end of the document
+      const filteredData = data.filter(line => line.trim() !== '');
+
+      const vozila = filteredData.reduce((acc, line) => {
+        const [IdVozila, marka, model, cena, tip, objekatPripada, vrstaMenjaca, tipGoriva, potrosnja, brojVrata, brojOsoba, opis, slika, status] = line.split(";");
+        acc[IdVozila.trim()] = { 
+          marka: marka.trim(), 
+          model: model.trim(),
+          cena: cena.trim(),
+          tip: tip.trim(),
+          objekatPripada: objekatPripada.trim(),
+          vrstaMenjaca: vrstaMenjaca.trim(),
+          tipGoriva: tipGoriva.trim(),
+          potrosnja: potrosnja.trim(),
+          brojVrata: brojVrata.trim(),
+          brojOsoba: brojOsoba.trim(),
+          opis: opis.trim(),
+          slika: slika.trim(),
+          status: status.trim()
+        };
+        return acc;
+      }, {});
+      this.vozila = vozila;
+      
       console.log("Loaded vozila:", this.vozila);
-      })
-	    .catch(error => {
-	      console.error("Error fetching vozilo data:", error);
-	    });
-	},
-	 getVoziloById(id) {
-      return this.vozila[id];
-    },
+    })
+    .catch(error => {
+      console.error("Error fetching vozilo data:", error);
+    });
+},
 
     getVozilaForPorudzbina(porudzbina) {
       return porudzbina.iznajmljenaVozila.map((id) => this.getVoziloById(id));
@@ -498,6 +509,34 @@ template:
         alert("You don't have enough points to reduce.");
       }
     }
+  },
+  
+   addComment(porudzbina) {
+    // Check if newComment is not empty
+    if (this.newComment.trim() === "") {
+      alert("Unesite tekst komentara.");
+      return;
+    }
+
+    // Create a new comment object
+    const comment = {
+      porudzbinaId: porudzbina.id,
+      tekst: this.newComment,
+      datum: new Date().toISOString(),
+    };
+  
+    axios
+      .post("komentari.txt", comment)
+      .then((response) => {
+        // Assuming the server responds with success
+        alert("Komentar uspešno dodat.");
+        // Clear the newComment input field
+        this.newComment = "";
+      })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+        
+      });
   },
   },
 computed: {

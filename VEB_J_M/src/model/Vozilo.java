@@ -165,6 +165,5 @@ public class Vozilo {
 	    public void setStatus(Status status) {
 	        this.status = status;
 	    }
-	
 
 }

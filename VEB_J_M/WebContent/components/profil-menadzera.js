@@ -11,7 +11,8 @@ Vue.component("profil-menadzera", {
 	      filteredPorudzbine: [],
 	      selectedPriceRange: {
 	        min: null,
-	        max: null
+	        max: null,
+	        
 	      },
 	      filterButtonClicked: false,
 	      selectedStartDate: null,
@@ -22,7 +23,9 @@ Vue.component("profil-menadzera", {
 	      dateSortOrder: "asc",
 	      priceSortOrder: "asc",
     	  showAllPorudzbineButton: true,
-	    	menazdersObject: null
+	    	menazdersObject: null,
+    showOdbijPopupFlag: false,
+    odbijReason: "",
 			}
 },
 template:
@@ -36,12 +39,6 @@ template:
 <div class="page">
     <div class="main-container">
       <div class="sorting-container">
-		 <select v-model="selectedObjekat">
-		 <option value="">Sve porudzbine</option>
-		  <option v-for="objekat in findObjekatForPorudzbina()" :key="objekat.id" :value="objekat.id">
-		    {{ objekat.naziv }}
-		  </option>
-		</select>
 		<div class="price-range-container">
 		    <label for="minPrice">Min Cena:</label>
 		    <input type="number" v-model="selectedPriceRange.min" id="minPrice">
@@ -56,10 +53,6 @@ template:
 			  <input type="date" v-model="selectedEndDate" id="endDate">
 			  <button @click="applyDateFilter">Pronadji</button>
 			</div>
-			<div class="object-sorting">
-			    <button @click="toggleObjectSortOrder">Sortiraj po imenu objekta</button>
-			    <span>Sort Order: {{ objectSortOrder }}</span>
-			  </div>
 			 <div class="date-sorting">
 		   <button @click="toggleSort('datum')">Sortiraj po datumu</button>
 		   <span>Sort Order: {{ dateSortOrder }}</span>
@@ -108,6 +101,34 @@ template:
 			      <div class="ocena">{{ menazdersObject.ocena }}</div>
 			    </router-link>
 			</div>
+			<h3>Porudzbine objekta:</h3>
+			<button v-if="showAllPorudzbineButton" @click="showAllPorudzbine"  class="action-button">Prikazi sve porudzbine</button>
+          
+			<li v-for="porudzbina in filteredPorudzbine" :key="porudzbina.id">
+              <div class="porudzbina-container">
+              
+                <p class="porudzbina-status">Status: {{ porudzbina.status }}</p>
+                  <p class="porudzbina-cena">Cena: {{ porudzbina.cena }}</p>
+                  
+                  <p class="porudzbina-cena">Kupac: {{ porudzbina.imePrezimeKupca }}</p>
+ 					<button v-if="porudzbina.status !== 'Vraceno'" @click="odobriPorudzbinu(porudzbina)">Odobri</button>
+    					
+					    <button v-if="porudzbina.status !== 'Vraceno'" @click="showOdbijPopup(porudzbina)">Odbij</button>
+						<div v-if="porudzbina.status !== 'Vraceno'">
+
+						<div v-if="showOdbijPopupFlag" class="popup">
+						  <div class="popup-content">
+						    <span @click="closeOdbijPopup" class="close-popup">&times;</span>
+						    <h3>Odbij porudžbinu</h3>
+						    <textarea v-model="odbijReason" placeholder="Unesite razlog odbijanja"></textarea>
+						    <button @click="odbijPorudzbinu(porudzbina, odbijReason)">Potvrdi</button>
+						  </div>
+						</div>
+					  </div>
+                  
+                </div>
+              </div>
+            </li>
         </div>
       </div>
     </div>
@@ -118,6 +139,25 @@ template:
  
  
 , methods: {
+	showOdbijPopup(porudzbina) {
+    this.showOdbijPopupFlag = true;
+  },
+
+  closeOdbijPopup() {
+    this.showOdbijPopupFlag = false;
+  },
+
+  odbijPorudzbinu(porudzbina, reason) {
+    this.closeOdbijPopup();
+  },
+	odobriPorudzbinu(porudzbina) {
+    porudzbina.status = "Odobreno";
+  },
+
+  odbijPorudzbinu(porudzbina) {
+    porudzbina.status = "Odbijeno";
+
+  },
 	 getLokacijaById(id) {
       if (this.lokacije && this.lokacije[id]) {
         const { ulica, grad } = this.lokacije[id];
@@ -125,14 +165,15 @@ template:
       }
       return "";
     },
-	getProfileLink() {
-      const korisnickoIme = this.$route.params.korisnickoIme;
-      return `/korisnikPocetna/${korisnickoIme}/profilKorisnika`;
-    },
-    getPocetnaLink() {
-      const korisnickoIme = this.$route.params.korisnickoIme;
-      return `/korisnikPocetna/${korisnickoIme}`;
-    },
+		getProfileLink() {
+	    const korisnickoIme = this.$data.korisnickoIme;
+		  console.log('korisnickoIme:', korisnickoIme); // Log the value to the console
+		  return `/menadzerPocetna/${korisnickoIme}/profilMenadzera`;
+			  },
+	  getPocetnaLink() {
+	    const korisnickoIme = this.$data.korisnickoIme;
+	    return `/menadzerPocetna/${korisnickoIme}`;
+	  },
 	loadKorisnici() {
       axios
         .get("korisnik.txt")
@@ -248,7 +289,13 @@ template:
 	
  			this.porudzbine = porudzbine.filter((porudzbina) => porudzbina !== null);
           this.korisnikPorudzbine = [...this.porudzbine];
+          const menadzersObjectId = this.menazdersObject ? this.menazdersObject.id : null;
+      if (menadzersObjectId) {
+        this.porudzbine = this.porudzbine.filter((porudzbina) => porudzbina.objekat === menadzersObjectId);
+        
+          console.log("Loaded porudzbine:", menadzersObjectId);
           console.log("Loaded porudzbine:", this.porudzbine);
+      } 
     })
 	    .catch((error) => {
 	      console.error("Error fetching porudzbine data:", error);
@@ -256,14 +303,30 @@ template:
 	},
 
 	loadVozila() {
-	  axios
-      .get('vozila.txt')
-      .then(response => {
-        const data = response.data.split("\n");
-        const vozila = data.reduce((acc, line) => {
-          const [IdVozila, marka, model, cena, tip, objekatPripada, vrstaMenjaca, tipGoriva, potrosnja, brojVrata, brojOsoba, opis, slika, status] = line.split(";");
-          acc[IdVozila.trim()] = { 
-            marka: marka.trim(), 
+  axios
+    .get('vozila.txt')
+    .then(response => {
+      const data = response.data.split("\n");
+
+      // Initialize an array to store the vehicles
+      const vozila = [];
+
+      // Iterate through each line of data
+      data.forEach(line => {
+        const fields = line.split(";");
+        
+        // Check if the line has the expected number of fields
+        if (fields.length === 14) {
+          const [
+            IdVozila, marka, model, cena, tip, objekatPripada,
+            vrstaMenjaca, tipGoriva, potrosnja, brojVrata, brojOsoba,
+            opis, slika, status
+          ] = fields;
+
+          // Create an object for each vehicle and push it to the array
+          vozila.push({
+            id: IdVozila.trim(),
+            marka: marka.trim(),
             model: model.trim(),
             cena: cena.trim(),
             tip: tip.trim(),
@@ -276,21 +339,19 @@ template:
             opis: opis.trim(),
             slika: slika.trim(),
             status: status.trim()
-          };
-          return acc;
-        }, {});
-        this.vozila = vozila;
-        
-      console.log("Loaded vozila:", this.vozila);
-      })
-	    .catch(error => {
-	      console.error("Error fetching vozilo data:", error);
-	    });
-	},
-	 getVoziloById(id) {
-      return this.vozila[id];
-    },
+          });
+        }
+      });
 
+      // Assign the array of vehicles to this.vozila
+      this.vozila = vozila;
+
+      console.log("Loaded vozila:", this.vozila);
+    })
+    .catch(error => {
+      console.error("Error fetching vozilo data:", error);
+    });
+},
     getVozilaForPorudzbina(porudzbina) {
       return porudzbina.iznajmljenaVozila.map((id) => this.getVoziloById(id));
     },
@@ -322,9 +383,15 @@ template:
     },
     
     
-     findObjekatForPorudzbina(porudzbina) {
-	    return this.objects.find(objekat => objekat.id === porudzbina.objekat);
-	  },
+     findPorudzbineForSelectedObject() {
+  const selectedObjectId = this.menazdersObject ? this.menazdersObject.id : null;
+  if (!selectedObjectId) {
+    return [];
+  }
+
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", selectedObjectId);
+  return this.porudzbine.filter(porudzbina => porudzbina.objekat === selectedObjectId);
+},
 	  
 	  
 	getMatchedObjects() {
@@ -337,7 +404,14 @@ template:
 	    });
 	    return matchedObjectIds;
 	  },
+		findPorudzbineForSelectedObject() {
+    const selectedObjectId = this.selectedObject ? this.selectedObject.id : null;
+    if (!selectedObjectId) {
+      return [];
+    }
 
+    return this.porudzbine.filter(porudzbina => porudzbina.objekat === selectedObjectId);
+  },
 
 	  findObjekatForPorudzbina(objectId) {
 		    const matchedObjectIds = this.getMatchedObjects();
@@ -353,11 +427,11 @@ template:
 		    return this.objects.find((objekat) => objekat.id === objectId);
 		  },
 		filterPorudzbineByObjekat() {
-	    if (this.selectedObjekat === null || this.selectedObjekat === "") {
-		    this.filteredPorudzbine = [...this.korisnikPorudzbine]; // Display all orders
+	    if (this.menazdersObject === null || this.menazdersObject === "") {
+		    this.filteredPorudzbine = [...this.porudzbine]; // Display all orders
 		  } else {
-		    this.filteredPorudzbine = this.korisnikPorudzbine.filter(
-		      (porudzbina) => porudzbina.objekat === this.selectedObjekat
+		    this.filteredPorudzbine = this.porudzbine.filter(
+		      (porudzbina) => porudzbina.objekat === this.menazdersObject
 		    );
 		    
 		  }
@@ -368,7 +442,7 @@ template:
 	    console.log("Minimum Price:", minPrice);
 	    console.log("Maximum Price:", maxPrice);
 	
-	    this.filteredPorudzbine = this.filteredPorudzbine.filter((porudzbina) => {
+	    this.filteredPorudzbine = this.porudzbine.filter((porudzbina) => {
 	      const cena = porudzbina.cena;
 	      console.log("Cena:", cena);
 	
@@ -388,7 +462,7 @@ template:
 		    return;
 		  }
 		
-		    this.filteredPorudzbine = this.korisnikPorudzbine.filter((porudzbina) => {
+		    this.filteredPorudzbine = this.porudzbine.filter((porudzbina) => {
 		      const startDate = new Date(this.selectedStartDate);
 		      const endDate = new Date(this.selectedEndDate);
 		      const porudzbinaDate = porudzbina.datumIznajmljivanja;
@@ -448,20 +522,20 @@ template:
 
    sortByDate(order) {
       if (order === 'asc') {
-         this.korisnikPorudzbine.sort((a, b) => a.datumIznajmljivanja - b.datumIznajmljivanja);
+         this.porudzbine.sort((a, b) => a.datumIznajmljivanja - b.datumIznajmljivanja);
       } else {
-         this.korisnikPorudzbine.sort((a, b) => b.datumIznajmljivanja - a.datumIznajmljivanja);
+         this.porudzbine.sort((a, b) => b.datumIznajmljivanja - a.datumIznajmljivanja);
       }
-      this.filteredPorudzbine = [...this.korisnikPorudzbine];
+      this.filteredPorudzbine = [...this.porudzbine];
    },
 
    sortByPrice(order) {
       if (order === 'asc') {
-         this.korisnikPorudzbine.sort((a, b) => a.cena - b.cena);
+         this.porudzbine.sort((a, b) => a.cena - b.cena);
       } else {
-         this.korisnikPorudzbine.sort((a, b) => b.cena - a.cena);
+         this.porudzbine.sort((a, b) => b.cena - a.cena);
       }
-      this.filteredPorudzbine = [...this.korisnikPorudzbine];
+      this.filteredPorudzbine = [...this.porudzbine];
    },
    toggleSort(type) {
       if (type === 'datum') {
@@ -477,7 +551,7 @@ template:
     this.filteredPorudzbine = this.korisnikPorudzbinez; // Display all orders initially
   },
    showAllPorudzbine() {
-    this.filteredPorudzbine = [...this.korisnikPorudzbine]; // Display all orders
+    this.filteredPorudzbine = [...this.porudzbine]; // Display all orders
     this.showAllPorudzbineButton = false; // Hide the button
   },
   reduceBrojBodova(porudzbina) {
@@ -497,6 +571,9 @@ computed: {
 	      return this.korisnik.svaIznajmljivanja.some((id) => id === porudzbina.id);
 	    });
 	  },
+	 filteredPorudzbineByObject() {
+    return this.findPorudzbineForSelectedObject();
+  },
 
   },
   mounted() {
@@ -512,6 +589,10 @@ Promise.all([
   
   this.sortByObjectName();
   this.sortPorudzbineByObjectName();
+  this.loadObjekti();
+      this.loadKorisnici();
+      this.loadPorudzbine();
+      this.loadVozila();
 },
 watch: {
 	  selectedObjekat: "filterPorudzbineByObjekat",

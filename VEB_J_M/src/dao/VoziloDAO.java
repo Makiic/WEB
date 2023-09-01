@@ -54,6 +54,7 @@ public class VoziloDAO {
         if (!vozila.containsKey(vozilo.getIdVozila())) {
             vozila.put(vozilo.getIdVozila(), vozilo);
             writeVozilo(vozilo);
+            vozilaList.add(vozilo);
         }
         return vozilo;
     }
@@ -68,6 +69,8 @@ public class VoziloDAO {
     }
 
     public Vozilo deleteVozilo(String id) {
+
+    	System.out.println("uslo u dao vozila");
         if (vozila.containsKey(id)) {
             Vozilo removedVozilo = vozila.remove(id);
             rewriteVozilaFile();
@@ -150,7 +153,6 @@ public class VoziloDAO {
         	
         	int nextId = vozilaList.size() + 1;
             StringBuilder line = new StringBuilder();
-            line.append("\n"); 
             line.append(nextId).append(";");
             line.append(vozilo.getMarka()).append(";");
             line.append(vozilo.getModel()).append(";");
@@ -176,10 +178,20 @@ public class VoziloDAO {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(realPath))) {
             for (Vozilo vozilo : vozila.values()) {
                 StringBuilder line = new StringBuilder();
-                // Format and append attributes of vozilo to the line
-                // Example: line.append(vozilo.getIdVozila()).append(";")
-                //               .append(vozilo.getMarka()).append(";")
-                //               .append(vozilo.getModel()).append(";");
+                 line.append(vozilo.getIdVozila()).append(";")
+                     .append(vozilo.getMarka()).append(";")
+                     .append(vozilo.getModel()).append(";")
+                     .append(vozilo.getCena()).append(";")
+                     .append(vozilo.getTip()).append(";")
+                     .append(vozilo.getObjekatPripada()).append(";")
+                     .append(vozilo.getVrstaMenjaca()).append(";")
+                     .append(vozilo.getTipGoriva()).append(";")
+                     .append(vozilo.getPotrosnja()).append(";")
+                     .append(vozilo.getBrojVrata()).append(";")
+                     .append(vozilo.getBrojOsoba()).append(";")
+                     .append(vozilo.getOpis()).append(";")
+                     .append(vozilo.getSlika()).append(";")
+                     .append(vozilo.getStatus()).append(";");
                 writer.write(line.toString());
                 writer.newLine();
             }

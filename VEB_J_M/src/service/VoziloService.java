@@ -72,10 +72,11 @@ public class VoziloService {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/delete/{IdVozila}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Vozilo deleteVozilo(@PathParam("id") String id) {
+    public Vozilo deleteVozilo(@PathParam("IdVozila") String IdVozila) {
+    	System.out.println("uslo u service");
         VoziloDAO dao = (VoziloDAO) ctx.getAttribute("voziloDAO");
-        return dao.deleteVozilo(id);
+        return dao.deleteVozilo(IdVozila);
     }
 }
