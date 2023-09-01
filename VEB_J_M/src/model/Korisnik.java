@@ -19,7 +19,30 @@ public class Korisnik
     private TipKupca tip;
     
     private List<String> svaIznajmljivanja;
-    public enum Uloga {
+    private String idKorpe;
+    private String idObjekta;
+    public String getIdKorpe() {
+		return idKorpe;
+	}
+
+
+	public void setIdKorpe(String idKorpe) {
+		this.idKorpe = idKorpe;
+	}
+
+
+	public String getIdObjekta() {
+		return idObjekta;
+	}
+
+
+	public void setIdObjekta(String idObjekta) {
+		this.idObjekta = idObjekta;
+	}
+
+
+
+	public enum Uloga {
        Kupac,
        Menadzer,
        Administrator

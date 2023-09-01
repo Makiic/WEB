@@ -1,10 +1,6 @@
-mara;mara;ssmmm;ss;zenski;2023-08-29;Kupac;ABC123,MNO345;0;Zlatni;
-aa;a;a;as;muski;2023-09-01;Administrator;1,2;0;Zlatni;
-ddds;dd;ddddf;dddd;muski;2023-08-01;Kupac;1,2;0;Zlatni;
-ccc;ccc;cc;cc;zenski;2023-09-01;Kupac;1,2;0;Zlatni;
-cccc;cc;cc;cc;muski;2023-08-30;Kupac;1,2;0;Zlatni;
-x;x;x;x;muski;2023-08-31;Kupac;1,2;0;Zlatni;
-d;d;d;d;muski;2023-08-10;Kupac;1,2;0;Zlatni;
-a;a;a;a;muski;2023-08-10;Kupac;1,2;0;Zlatni;
-s;s;s;s;muski;2023-08-02;Kupac;1,2;0;Zlatni;
-v;v;v;v;zenski;2023-08-16;Kupac;1,2;0;Zlatni;
+mara;mara;ssmmm;ss;zenski;2023-08-29;Menadzer;ABC123,MNO345;1;1;0;Zlatni;
+aa;a;a;as;muski;2023-09-01;Kupac;1,2;2;0;0;Zlatni;
+ddds;dd;ddddf;dddd;muski;2023-08-01;Kupac;1,2;3;0;0;Zlatni;
+ccc;ccc;cc;cc;zenski;2023-09-01;Kupac;1,2;4;0;5;Zlatni;
+cccc;cc;cc;cc;muski;2023-08-30;Kupac;1,2;5;0;8;Zlatni;
+cccc;ccc;c;c;muski;2023-09-12;Kupac;null;

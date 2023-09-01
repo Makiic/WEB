@@ -1,8 +1,7 @@
-
-Vue.component("korisnik-pocetna", {
-  data: function () {
+Vue.component("menadzer-pocetna", {
+  data() {
     return {
-      objects: null,
+     objects: null,
       searchQuery: "",
       searchOcena: "",
       searchLokacija: "",
@@ -137,10 +136,11 @@ Vue.component("korisnik-pocetna", {
     },
   },
   template: `
-<div>  	
-    <div class="rentHeader">
+  
+  <div >
+	  <div class="rentHeader">
       <center>      
-      	<link rel="stylesheet" href="css/pocetna.css">
+      	<link rel="stylesheet" href="css/korisnik-pocetna.css">
 		<div class="login-bar">
 		    <router-link :to="getPocetnaLink()" class="pocetna-button">Pocetna stranica</router-link>
 			<router-link :to="getProfileLink()" class="login-button">Moj profil</router-link>
@@ -272,9 +272,11 @@ Vue.component("korisnik-pocetna", {
       </div>
     </div>
    </div>
+  </div>
+
   `,
-  mounted() {
-	  axios
+  mounted(){
+	    axios
 	    .get("porudzbine.txt")
 	    .then((response) => {
 	      const data = response.data.split("\n");
@@ -406,7 +408,7 @@ Vue.component("korisnik-pocetna", {
 
   },
   methods: {
-    getVoziloById(id) {
+ 	getVoziloById(id) {
       if (this.vozila && this.vozila[id]) {
         const vozilo = this.vozila[id];
         if (vozilo) {
@@ -468,7 +470,7 @@ Vue.component("korisnik-pocetna", {
 	getProfileLink() {
 	    const korisnickoIme = this.$data.korisnickoIme;
 		  console.log('korisnickoIme:', korisnickoIme); // Log the value to the console
-		  return `/korisnikPocetna/${korisnickoIme}/profilKorisnika`;
+		  return `/menadzerPocetna/${korisnickoIme}/profilMenadzera`;
 			  },
 	  getPocetnaLink() {
 	    const korisnickoIme = this.$data.korisnickoIme;
@@ -558,5 +560,5 @@ Vue.component("korisnik-pocetna", {
 		    const korisnickoIme = this.$data.korisnickoIme;
 		    this.$router.push({ name: 'pregled-korpe', params: { korisnickoIme } });
 		  },
-  }
+  },
 });
