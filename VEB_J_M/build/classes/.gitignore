@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 /.DS_Store
 /app/
 /dao/
 /model/
 /service/
+=======
+/model/
+/service/
+/dao/
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f

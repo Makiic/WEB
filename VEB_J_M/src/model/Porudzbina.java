@@ -6,9 +6,9 @@ import model.Korisnik.Uloga;
 
 public class Porudzbina {
     private String id;
-    private List<Vozilo> iznajmljenaVozila;
-    private RentACarObjekat objekat;
-    private LocalDateTime datumIznajmljivanja;
+    private List<Integer> iznajmljenaVozila;
+    private int objekat;
+    private String datumIznajmljivanja;
     private int trajanjeNajma;
     private double cena;
     private String imePrezimeKupca;
@@ -24,19 +24,15 @@ public class Porudzbina {
     	Otkazano
     }
 
-    public Porudzbina(String id, List<Vozilo> iznajmljenaVozila, RentACarObjekat objekat,
-                      LocalDateTime datumIznajmljivanja, int trajanjeNajma, double cena,
-                      Korisnik korisnik, StatusPorudzbine status) {
+    public Porudzbina(String id, List<Integer> iznajmljenaVozila, int objekat,
+    		String datumIznajmljivanja, int trajanjeNajma, double cena,
+    		String imePrezimeKupca, StatusPorudzbine status) {
         this.id = id;
         this.iznajmljenaVozila = iznajmljenaVozila;
         this.objekat = objekat;
         this.datumIznajmljivanja = datumIznajmljivanja;
         this.trajanjeNajma = trajanjeNajma;
         this.cena = cena;
-        if (korisnik.getUloga() == Uloga.Kupac) {
-            
-            this.imePrezimeKupca = korisnik.getIme() + " " + korisnik.getPrezime();
-        }
         this.status = status;
     }
 
@@ -50,27 +46,27 @@ public class Porudzbina {
         this.id = id;
     }
 
-    public List<Vozilo> getIznajmljenaVozila() {
+    public List<Integer> getIznajmljenaVozila() {
         return iznajmljenaVozila;
     }
 
-    public void setIznajmljenaVozila(List<Vozilo> iznajmljenaVozila) {
+    public void setIznajmljenaVozila(List<Integer> iznajmljenaVozila) {
         this.iznajmljenaVozila = iznajmljenaVozila;
     }
 
-    public RentACarObjekat getObjekat() {
+    public int getObjekat() {
         return objekat;
     }
 
-    public void setObjekat(RentACarObjekat objekat) {
+    public void setObjekat(int objekat) {
         this.objekat = objekat;
     }
 
-    public LocalDateTime getDatumIznajmljivanja() {
+    public String getDatumIznajmljivanja() {
         return datumIznajmljivanja;
     }
 
-    public void setDatumIznajmljivanja(LocalDateTime datumIznajmljivanja) {
+    public void setDatumIznajmljivanja(String datumIznajmljivanja) {
         this.datumIznajmljivanja = datumIznajmljivanja;
     }
 

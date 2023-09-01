@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
 Vue.component("korisnik-pocetna", {
   data: function () {
     return {
@@ -17,10 +21,25 @@ Vue.component("korisnik-pocetna", {
       filterFuelType: "",
       filterOpen: false,
       korisnickoIme: this.$route.params.korisnickoIme,
+<<<<<<< HEAD
       isImageBlurred: false,
     };
   },
   computed: {
+=======
+	    fromDate: null,
+	    toDate: null,
+	    showDatePicker: false,
+	    filteredVozila: [],
+	    korpe: [],
+	    korpa: null,
+    };
+  },
+  computed: {
+	  foundKorpa() {
+    return this.korpe.find(korpa => korpa.korisnikId === this.korisnikId);
+  },
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
     filteredObjects: function () {
       if (this.objects && this.pretraziClicked) {
         const query = this.searchQuery.toLowerCase();
@@ -135,7 +154,11 @@ Vue.component("korisnik-pocetna", {
 		    <router-link :to="getPocetnaLink()" class="pocetna-button">Pocetna stranica</router-link>
 			<router-link :to="getProfileLink()" class="login-button">Moj profil</router-link>
 		</div>
+<<<<<<< HEAD
        <img id="headerImage" src="images/cover.JPG" alt="Image" style="width: 100%;">
+=======
+        <img src="images/cover.JPG" alt="Image" style="width: 100%;">
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
         <div class="menu-bar-rent-objects">
           <input class="searchCar" v-model="searchQuery" type="text" placeholder="Pretrazi po nazivu" />
           <input class="searchCar" v-model="searchOcena" type="text" placeholder="Pretrazi po prosecnoj oceni" />
@@ -207,10 +230,30 @@ Vue.component("korisnik-pocetna", {
 		  />
 		  <label for="filterOpen">Otvoreni objekti</label>
 		</div>
+<<<<<<< HEAD
       </div>
       
         <div class="grid-container">
           <div v-for="p in filteredObjects" :key="p.id" class="object">
+=======
+		
+  <button @click="goToCartPage">Pregled korpe</button>
+		<button @click="showDateRangePickerAndToggle">Iznajmi</button>
+
+  
+		  <div v-if="showDatePicker" class="date-picker">
+		    <label>From Date:</label>
+		    <input type="date" v-model="fromDate">
+		    <label>To Date:</label>
+		    <input type="date" v-model="toDate">
+		    <button @click="applyDateRangeFilter">Apply</button>
+		  </div>
+		  
+      </div>
+      
+      <div class="grid-container">
+  <div v-for="p in filteredObjects" :key="p.id" class="object" v-if="!iznajmljivanjeClicked">
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
 			  <router-link :to="{ name: 'rent-a-car-details', params: { id: p.id } }">
 			      <!-- Display the object's content here -->
 			      <div class="logo-container">
@@ -221,12 +264,88 @@ Vue.component("korisnik-pocetna", {
 			      <div class="ocena">{{ p.ocena }}</div>
 			    </router-link>
 			</div>
+<<<<<<< HEAD
         </div>
+=======
+			<div class="vozila-container" v-if="iznajmljivanjeClicked">
+		    <div v-for="vozilo in filteredVozila" :key="vozilo.IdVozila" class="vozilo-container">
+			    <div class="vozilo-details">
+			    <div class="vozilo-left">
+			    <div class="vozilo-leftr">
+			          <img :src="'images/' + vozilo.slika" :alt="'slika '" width="70" height="70">
+			       </div> </div>
+			        <div class="vozilo-right">
+			          <p>Marka: {{ vozilo.marka }}</p>
+			          <p>Model: {{ vozilo.model }}</p>
+			          <p>Tip goriva: {{ vozilo.tipGoriva }}</p>
+			          <p>Vrsta menjaca: {{ vozilo.vrstaMenjaca }}</p>
+			          <p>Tip Goriva : {{ vozilo.tipGoriva }}</p>
+			          <p>Potrosnja : {{ vozilo.potrosnja  }}</p>
+			          <p>Broj vrata : {{ vozilo.brojVrata  }}</p>
+			          <p>Broj osoba : {{ vozilo.brojOsoba }}</p>
+			          <p>Opis : {{ vozilo.opis  }}</p>
+			        </div>
+			        <button @click="addToCart(vozilo.IdVozila)">Add to Korpa</button>
+			       </div>
+		</div>
+		  </div>
+        </div>
+		  
+        
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
       </div>
     </div>
    </div>
   `,
   mounted() {
+<<<<<<< HEAD
+=======
+	  axios
+	    .get("porudzbine.txt")
+	    .then((response) => {
+	      const data = response.data.split("\n");
+	      const porudzbine = data.map((line) => {
+	        const trimmedLine = line.trim(); // Trim the line to remove leading/trailing whitespace
+	        if (trimmedLine === "") {
+	          return null; // Skip empty lines
+	        }
+	
+	        const [
+	          id,
+	          iznajmljenaVozilaStr,
+	          objekat,
+	          datumIznajmljivanjaStr,
+	          trajanjeNajma,
+	          cena,
+	          imePrezimeKupca,
+	          statusStr
+	        ] = trimmedLine.split(";");
+	
+	        const iznajmljenaVozila = iznajmljenaVozilaStr.split(",");
+	        const datumIznajmljivanja = new Date(datumIznajmljivanjaStr);
+	
+	        const status = statusStr.trim();
+	
+	        return {
+	          id: id.trim(),
+	          iznajmljenaVozila,
+	          objekat: parseInt(objekat),
+	          datumIznajmljivanja,
+	          trajanjeNajma: parseInt(trajanjeNajma),
+	          cena: parseFloat(cena),
+	          imePrezimeKupca: imePrezimeKupca.trim(),
+	          status,
+	        };
+	      });
+	
+ 			this.porudzbine = porudzbine.filter((porudzbina) => porudzbina !== null);
+          this.korisnikPorudzbine = [...this.porudzbine];
+          console.log("Loaded porudzbine:", this.porudzbine);
+    })
+	    .catch((error) => {
+	      console.error("Error fetching porudzbine data:", error);
+	    });
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
     axios.get('rent-car.txt')
       .then(response => {
         const data = response.data.split("\n");
@@ -265,6 +384,7 @@ Vue.component("korisnik-pocetna", {
       });
 
     axios.get('vozila.txt')
+<<<<<<< HEAD
       .then(response => {
         const data = response.data.split("\n");
         const vozila = data.reduce((acc, line) => {
@@ -292,6 +412,55 @@ Vue.component("korisnik-pocetna", {
         console.error("Error fetching vozilo data:", error);
       });
         window.addEventListener('scroll', this.handleScroll);
+=======
+  .then(response => {
+    const data = response.data.split("\n");
+    const vozila = data.map((line) => {
+      const [IdVozila, marka, model, cena, tip, objekatPripada, vrstaMenjaca, tipGoriva, potrosnja, brojVrata, brojOsoba, opis, slika, status] = line.split(";");
+      return {
+        IdVozila: IdVozila.trim(),
+        marka: marka.trim(),
+        model: model.trim(),
+        cena: cena.trim(),
+        tip: tip.trim(),
+        objekatPripada: objekatPripada.trim(),
+        vrstaMenjaca: vrstaMenjaca.trim(),
+        tipGoriva: tipGoriva.trim(),
+        potrosnja: potrosnja.trim(),
+        brojVrata: brojVrata.trim(),
+        brojOsoba: brojOsoba.trim(),
+        opis: opis.trim(),
+        slika: slika.trim(),
+        status: status.trim()
+      };
+    });
+    this.vozila = vozila;
+  })
+  .catch(error => {
+    console.error("Error fetching vozilo data:", error);
+  });
+  		axios.get('korpe.txt')
+  .then(response => {
+    const data = response.data.split('\n');
+    this.korpe = data.map(line => {
+      const [id, vozila, korisnikId, cena] = line.split(';').map(item => item.trim());
+      return {
+        id: id,
+        vozila: vozila.split(',').map(item => item.trim()), // Split and trim the list of vehicles
+        korisnikId: korisnikId,
+        cena: cena
+      };
+    });
+    this.korpa = this.korpe.find(korpa => korpa.korisnikId.trim() === this.korisnickoIme.trim());
+  })
+  .catch(error => {
+    console.error("Error fetching korpa data:", error);
+  });
+      
+      
+      
+
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
   },
   methods: {
     getVoziloById(id) {
@@ -362,6 +531,7 @@ Vue.component("korisnik-pocetna", {
 	    const korisnickoIme = this.$data.korisnickoIme;
 	    return `/korisnikPocetna/${korisnickoIme}`;
 	  },
+<<<<<<< HEAD
 	    handleScroll() {
       const headerImage = document.getElementById('headerImage');
       const scrollTop = window.scrollY;
@@ -378,5 +548,91 @@ Vue.component("korisnik-pocetna", {
  beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+=======
+	  showDateRangePicker() {
+	    this.showDatePicker = true;
+	  },
+		
+		 toggleIznajmljivanjeClicked() {
+		    this.iznajmljivanjeClicked = !this.iznajmljivanjeClicked;
+		  },
+		  filterVehiclesByDateRange() {
+		    const fromDate = new Date(this.fromDate).getTime();
+			  const toDate = new Date(this.toDate).getTime();
+			
+			  this.filteredVozila = this.vozila.filter(vozilo => {
+			    let isAvailable = vozilo.status === "DOSTUPNO"; // Initialize availability status
+			
+			    for (const porudzbina of this.korisnikPorudzbine) {
+			      const voziloIds = porudzbina.iznajmljenaVozila;
+			      if (voziloIds.includes(vozilo.IdVozila)) {
+					const porudzbinaDates = new Date(porudzbina.datumIznajmljivanja);
+					const fromDates = new Date(this.fromDate);
+					const toDates = new Date(this.toDate);
+			        console.log("Porudzbina Dates:", porudzbinaDates);
+			        console.log("From Datse:", fromDates);
+			        console.log("To Dates:", toDates);
+			        if (porudzbinaDates >= fromDates && porudzbinaDates <= toDates) {
+			          console.log(`Filtered out vehicle ${vozilo.IdVozila} due to overlapping order`);
+			          isAvailable = false; // Vehicle has overlapping order
+			          break; // No need to check other orders
+			        }
+			      }
+			    }
+			
+			    return isAvailable; // Include/exclude the vehicle based on availability status
+			  });
+		  },
+			applyDateRangeFilter() {
+			  console.log("Applying date range filter");
+			  this.filterVehiclesByDateRange();
+			},
+		showDateRangePickerAndToggle() {
+		    this.showDateRangePicker();
+		    this.toggleIznajmljivanjeClicked();
+		  },
+		   getKorpaByKorisnikId(korisnikId) {
+			    this.korpa = this.korpe.find(korpa => korpa.korisnikId === korisnikId);
+			    console.log("KORPA", this.korpa);
+			    this.korpa = this.korpa;
+			    return this.korpa;
+			  },
+		    splitVozilaList(vozila) {
+				    const vozilaList = vozila.split(',').map(id => id.trim());
+				    return vozilaList;
+			  },
+		  addToCart(voziloId) {
+		    const selectedVozilo = this.vozila.find(vozilo => vozilo.IdVozila === voziloId);
+			
+			  if (selectedVozilo) {
+			    
+		   		
+			    console.log("KORPAAA:", this.korpa);
+			    this.korpa.vozila += "," + selectedVozilo.IdVozila;
+				
+				this.korpa.vozila = this.korpa.vozila;
+			    console.log("Added vehicle to cart:", selectedVozilo.IdVozila);
+			
+			    
+			    console.log("Updated korpa:", this.korpa);
+			  }		   
+			  
+				const vozilaList = this.korpa.vozila.split(',').map(id => id.trim());
+			  axios.put('rest/korpe/edit/' + this.korisnickoIme ,this.korpa.vozila)
+			      .then(response => {
+					   const updatedUserData = response.data;
+					   this.korpa = updatedUserData;
+			    console.log("PROJEKAAAAAAAAT:", updatedUserData);
+			      })
+			      .catch(error => {
+			        console.error("Error fetching new korpa:", error);
+			      });
+			  return this.korpa;
+		  },
+		  goToCartPage() {
+		    const korisnickoIme = this.$data.korisnickoIme;
+		    this.$router.push({ name: 'pregled-korpe', params: { korisnickoIme } });
+		  },
+>>>>>>> c6f4385967f11afd0f65a4260ca0ecdd190ff34f
   }
 });
